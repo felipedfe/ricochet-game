@@ -17,29 +17,13 @@ class SceneLoad extends Phaser.Scene {
     this.load.on("progress", this.showProgress);
 
     // bg
-    this.load.image("titleBack", "images/titleBack.jpg");
+    this.load.image("titleBack", "images/title-back.jpg");
 
-    // assets
-    this.load.image("green", "images/green.png");
-    this.load.image("table", "images/table.png");
+    // bola
+    this.load.image("ball", "images/ball.png");
 
-    // pratos
-    for (let i = 1; i <= 5; i += 1) {
-      this.load.image(`dish-${i}`, `images/dish-${i}.png`)
-    };
-
-    // personagens
-    this.load.image("character", "images/character-mouth-closed.png");
-
-    // baloezinhos
-    for (let i = 1; i <= 5; i += 1) {
-      this.load.image(`balloon-${i}`, `images/balloon-${i}.png`);
-    };
-
-    // placar
-    this.load.image("scoreBar", "images/score-bar.png");
-    this.load.image("right", "images/right.png");
-    this.load.image("wrong", "images/wrong.png");
+    // barra
+    this.load.image("defaultBar", "images/default-bar.png");
 
     // audios
     // this.load.audio("right", "audio/right.wav");

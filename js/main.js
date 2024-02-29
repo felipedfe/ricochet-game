@@ -9,8 +9,8 @@ window.onload = function () {
   if (isMobile == -1) {
     isMobile = navigator.userAgent.indexOf("Tablet");
   }
-  var w = 1360;
-  var h = 740;
+  var w = 740;
+  var h = 1360;
 
   if (isMobile != -1) {
     w = window.innerWidth;
@@ -24,6 +24,12 @@ window.onload = function () {
     height: h,
     // parent indica em que lugar da página o game vai ficar. Só colocar o id do elemento
     parent: 'game-container',
+    physics: {
+      default: 'arcade',
+      arcade: {
+        debug: true,
+      }
+    },
     // scene é a 'porta de entrada' pro game. A primeira cena é o índice 0 do array
     scene: [
       SceneLoad,
