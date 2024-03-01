@@ -2,7 +2,7 @@ class SceneMain extends Phaser.Scene {
   constructor() {
     super("SceneMain");
   }
-  preload() {}
+  preload() { }
 
   create() {
     // Imagem BG
@@ -17,15 +17,15 @@ class SceneMain extends Phaser.Scene {
     this.ball = this.physics.add.image(...this.ballInitialPosition, "ball");
     this.ball.displayWidth = 40;
     this.ball.displayHeight = this.ball.displayWidth;
-    this.ball.speed = 600;
+    this.ball.speed = 800;
     this.ball.vx = this.ball.speed;
     this.ball.vy = this.ball.speed;
     this.ball.setCircle(80); // Define a área de colisão da bola
     this.ball.setOrigin(0, 0);
     // this.ball.setCollideWorldBounds(true);
 
-    // this.bar2 = new DefaultBar(600, 1000, 1300, this);
-    this.bar3 = new GrabBar(100, 200, 500, this);
+    this.bar2 = new GrabBar(600, 1000, 1000, this);
+    this.bar3 = new GrabBar(100, 400, 700, this);
     this.bar1 = new DefaultBar(700, 900, 900, this);
 
     // Evento de clique
@@ -38,7 +38,10 @@ class SceneMain extends Phaser.Scene {
     if (this.bar3) {
       this.bar3.ballCollision = false;
     }
-    console.log(this.bar3?.ballCollision)
+    if (this.bar2) {
+      this.bar2.ballCollision = false;
+    }
+
     this.ball.setVelocity(this.ball.vx, -this.ball.vy);
   };
 

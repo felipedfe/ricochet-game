@@ -9,7 +9,7 @@ class GrabBar {
     this.collisionDifference = 0;
     this.ballCollision = false;
 
-    this.bar = this.scene.physics.add.image(this.x, this.y, "defaultBar");
+    this.bar = this.scene.physics.add.image(this.x, this.y, "grabBar");
     this.bar.displayWidth = 30;
     this.bar.displayHeight = 200;
     this.bar.setOrigin(0, 0);
@@ -43,6 +43,7 @@ class GrabBar {
   }
 
   changeDirection = () => {
+    console.log(this.collision);
     this.scene.ball.vx *= -1;
 
     this.scene.moveBall();
@@ -55,7 +56,15 @@ class GrabBar {
   };
 
   updateBallPosition = () => {
-    this.scene.ball.x = this.bar.x + this.bar.displayWidth;
+    // A posição aqui varia se a bola bater no lado esquerdo ou direito da barra
+    if (this.scene.ball.x < this.bar.x) {
+      this.scene.ball.x = this.bar.x - this.scene.ball.displayWidth;
+      console.log("bateu esquerda");
+    } else {
+      this.scene.ball.x = this.bar.x + this.bar.displayWidth;
+      console.log("bateu direita");
+    }
+
     this.scene.ball.y = this.bar.y + this.collisionDifference - (this.scene.ball.displayHeight / 2);
   };
 }

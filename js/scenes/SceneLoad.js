@@ -24,6 +24,7 @@ class SceneLoad extends Phaser.Scene {
 
     // barra
     this.load.image("defaultBar", "images/default-bar.png");
+    this.load.image("grabBar", "images/grab-bar.png");
 
     // audios
     // this.load.audio("right", "audio/right.wav");
@@ -53,7 +54,8 @@ class SceneLoad extends Phaser.Scene {
     let percentage = Math.floor(progress * 100);
     this.progText.setText(percentage + "%");
   };
-
+  
+  
   update() {
 
   }
