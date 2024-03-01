@@ -24,9 +24,15 @@ class SceneMain extends Phaser.Scene {
     this.ball.setOrigin(0, 0);
     // this.ball.setCollideWorldBounds(true);
 
-    this.bar2 = new GrabBar(600, 1000, 1000, this);
-    this.bar3 = new GrabBar(100, 400, 700, this);
-    this.bar1 = new DefaultBar(700, 900, 900, this);
+    // Grupo das grabBars
+    this.grabBarsGroup = [];
+
+    const bar2 = new GrabBar(650, 1000, 1000, this);
+    const bar3 = new GrabBar(100, 400, 700, this);
+    const bar1 = new DefaultBar(700, 900, 900, this);
+    const bar4 = new GrabBar(600, 1100, 900, this);
+ 
+    this.grabBarsGroup.push(bar2, bar3, bar4);
 
     // Evento de clique
     this.input.on("pointerdown", this.moveBall);
@@ -35,11 +41,18 @@ class SceneMain extends Phaser.Scene {
   }
 
   moveBall = () => {
-    if (this.bar3) {
-      this.bar3.ballCollision = false;
-    }
-    if (this.bar2) {
-      this.bar2.ballCollision = false;
+    // if (this.bar3) {
+    //   this.bar3.ballCollision = false;
+    // }
+    // if (this.bar2) {
+    //   this.bar2.ballCollision = false;
+    // }
+    // console.log(this.bar2)
+    if (this.grabBarsGroup.length > 0) {
+      this.grabBarsGroup.forEach((bar) => {
+        bar.ballCollision = false;
+        // setTimeout(bar.enableCollision, 100)
+      })
     }
 
     this.ball.setVelocity(this.ball.vx, -this.ball.vy);

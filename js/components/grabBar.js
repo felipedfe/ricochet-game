@@ -32,37 +32,67 @@ class GrabBar {
       },
     });
 
-    // Colisão entre a bola e a barra
+    // Adiciona colisão entre a bola e a barra
+    this.addCollision();
+  }
+
+  addCollision = () => {
     this.collision = this.scene.physics.add.collider(
       this.scene.ball,
       this.bar,
-      this.changeDirection,
+      this.grabBall,
       null,
       this.scene
     );
+  };
+  // addCollision = () => {
+  //   this.scene.physics.add.overlap(
+  //     this.scene.ball,
+  //     this.bar,
+  //     this.grabBall,
+  //     null,
+  //     this.scene
+  //   );
+  // };
+
+  disableCollision() {
+    this.bar.body.checkCollision.none = true;
   }
 
-  changeDirection = () => {
-    console.log(this.collision);
-    this.scene.ball.vx *= -1;
+  enableCollision() {
+    // this.bar.body.checkCollision.none = false;
+    // this.bar.body.checkCollision.left = false;
+    // this.bar.body.checkCollision.right = false;
+    console.log("oi")
+  }
 
-    this.scene.moveBall();
+  grabBall = () => {
+    if (!this.ballCollision) {
 
-    this.ballCollision = true;
-    this.scene.stopBall();
-    this.collision.destroy();
+      console.log(this.bar)
+      // pra mudar a direção da bola depois que desgrudar
+      this.scene.ball.vx *= -1;
 
-    this.collisionDifference = this.scene.ball.y - this.bar.y;
+      // this.scene.moveBall();
+
+      this.ballCollision = true;
+      this.scene.stopBall();
+      // this.disableCollision();
+      // this.collision.destroy();
+
+      // calcula a diferença entre o y da barra e o y da bola na hora da colisão
+      this.collisionDifference = this.scene.ball.y - this.bar.y;
+    }
   };
 
   updateBallPosition = () => {
     // A posição aqui varia se a bola bater no lado esquerdo ou direito da barra
     if (this.scene.ball.x < this.bar.x) {
+      // esquerda
       this.scene.ball.x = this.bar.x - this.scene.ball.displayWidth;
-      console.log("bateu esquerda");
     } else {
+      // direita
       this.scene.ball.x = this.bar.x + this.bar.displayWidth;
-      console.log("bateu direita");
     }
 
     this.scene.ball.y = this.bar.y + this.collisionDifference - (this.scene.ball.displayHeight / 2);
