@@ -24,18 +24,23 @@ class SceneMain extends Phaser.Scene {
     this.ball.setOrigin(0, 0);
     // this.ball.setCollideWorldBounds(true);
 
+    // Buraco
+    const hole = new Hole(150, 0, this);
+
     // Grupo das grabBars
     this.grabBarsGroup = [];
 
-    const bar2 = new GrabBar(650, 1000, 1000, this);
-    const bar3 = new GrabBar(100, 400, 700, this);
-    const bar1 = new DefaultBar(700, 900, 900, this);
-    const bar4 = new GrabBar(600, 1100, 900, this);
- 
-    this.grabBarsGroup.push(bar2, bar3, bar4);
+    // const bar2 = new GrabBar(650, 1000, 1000, this);
+    const bar3 = new GrabBar(100, 0, 1100, this);
+    const bar1 = new DefaultBar(500, 150, 150, this);
+    // const bar5 = new DefaultBar(600, 1111, 1111, this);
+    const bar4 = new GrabBar(600, 700, 1100, this);
+
+    this.grabBarsGroup.push(bar3, bar4);
 
     // Evento de clique
     this.input.on("pointerdown", this.moveBall);
+    this.input.keyboard.on('keydown-SPACE', this.moveBall);
 
     //// fim da create ////
   }

@@ -56,6 +56,7 @@ window.onload = function () {
     scene: [
       SceneLoad,
       //SceneTitle,
+      Stage1,
       SceneMain,
       SceneOver,
       SceneInstructions,

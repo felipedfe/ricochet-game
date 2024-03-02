@@ -26,6 +26,9 @@ class SceneLoad extends Phaser.Scene {
     this.load.image("defaultBar", "images/default-bar.png");
     this.load.image("grabBar", "images/grab-bar.png");
 
+    // buraco
+    this.load.image("hole", "images/hole.png");
+
     // audios
     // this.load.audio("right", "audio/right.wav");
     // this.load.audio("wrong", "audio/wrong.wav");
@@ -46,7 +49,7 @@ class SceneLoad extends Phaser.Scene {
     global.mediaManager = new MediaManager({ scene: this });
 
     // quando terminar o loading caimos aqui
-    this.scene.start("SceneMain");
+    this.scene.start("Stage1");
     // this.scene.start("SceneTitle");
   }
 
