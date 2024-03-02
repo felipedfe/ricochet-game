@@ -15,7 +15,7 @@ class Stage1 extends Phaser.Scene {
     this.ball = new Ball(this);
 
     // Buraco
-    const hole = new Hole(150, 0, this);
+    new Hole(150, 0, this);
 
     // Grupo das grabBars
     this.grabBarsGroup = [];
