@@ -12,7 +12,7 @@ class Hole {
     // this.hole.setSize(10, 300); // Define a área de colisão da barra
 
     this.scene.physics.add.overlap(
-      this.scene.ball,
+      this.scene.ball.ball,
       this.hole,
       this.handleOverlap,
       null,

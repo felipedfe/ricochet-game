@@ -49,7 +49,7 @@ class SceneLoad extends Phaser.Scene {
     global.mediaManager = new MediaManager({ scene: this });
 
     // quando terminar o loading caimos aqui
-    this.scene.start("Stage1");
+    this.scene.start("SceneMain");
     // this.scene.start("SceneTitle");
   }
 

@@ -38,7 +38,7 @@ class GrabBar {
 
   addCollision = () => {
     this.collision = this.scene.physics.add.collider(
-      this.scene.ball,
+      this.scene.ball.ball,
       this.bar,
       this.grabBall,
       null,
@@ -51,29 +51,29 @@ class GrabBar {
 
       console.log(this.bar)
       // pra mudar a direção da bola depois que desgrudar
-      this.scene.ball.vx *= -1;
+      this.scene.ball.ball.vx *= -1;
 
       // this.scene.moveBall();
 
       this.ballCollision = true;
-      this.scene.stopBall();
+      this.scene.ball.stopBall();
       // this.collision.destroy();
 
       // calcula a diferença entre o y da barra e o y da bola na hora da colisão
-      this.collisionDifference = this.scene.ball.y - this.bar.y;
+      this.collisionDifference = this.scene.ball.ball.y - this.bar.y;
     }
   };
 
   updateBallPosition = () => {
     // A posição aqui varia se a bola bater no lado esquerdo ou direito da barra
-    if (this.scene.ball.x < this.bar.x) {
+    if (this.scene.ball.ball.x < this.bar.x) {
       // esquerda
-      this.scene.ball.x = this.bar.x - this.scene.ball.displayWidth;
+      this.scene.ball.ball.x = this.bar.x - this.scene.ball.ball.displayWidth;
     } else {
       // direita
-      this.scene.ball.x = this.bar.x + this.bar.displayWidth;
+      this.scene.ball.ball.x = this.bar.x + this.bar.displayWidth;
     }
 
-    this.scene.ball.y = this.bar.y + this.collisionDifference - (this.scene.ball.displayHeight / 2);
+    this.scene.ball.ball.y = this.bar.y + this.collisionDifference - (this.scene.ball.ball.displayHeight / 2);
   };
 }

@@ -25,7 +25,7 @@ class DefaultBar {
 
     // Colisão entre a bola e a barra
     this.scene.physics.add.collider(
-      this.scene.ball,
+      this.scene.ball.ball,
       this.bar,
       this.changeDirection,
       null,
@@ -34,16 +34,16 @@ class DefaultBar {
   }
 
   changeDirection = () => {
-    this.scene.ball.vx *= -1;
+    this.scene.ball.ball.vx *= -1;
 
-    if (this.scene.ball.y > this.bar.y + this.bar.displayHeight - 10) { // numero magico
-      this.scene.ball.vx *= -1;
-      this.scene.ball.vy *= -1;
+    if (this.scene.ball.ball.y > this.bar.y + this.bar.displayHeight - 10) { // numero magico
+      this.scene.ball.ball.vx *= -1;
+      this.scene.ball.ball.vy *= -1;
       
-      console.log("ball: ", this.scene.ball.y)
+      console.log("ball: ", this.scene.ball.ball.y)
       console.log("bar: ",this.bar.y + this.bar.displayHeight - 10)
     }
     
-    this.scene.moveBall();
+    this.scene.ball.moveBall();
   };
 }
