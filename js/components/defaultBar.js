@@ -36,6 +36,7 @@ class DefaultBar {
   changeDirection = () => {
     this.scene.ball.ball.vx *= -1;
 
+    // Para ricochetear para outro lado caso a bola bata embaixo da barra
     if (this.scene.ball.ball.y > this.bar.y + this.bar.displayHeight - 10) { // numero magico
       this.scene.ball.ball.vx *= -1;
       this.scene.ball.ball.vy *= -1;

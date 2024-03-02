@@ -14,7 +14,7 @@ class GrabBar {
     this.bar.displayHeight = 200;
     this.bar.setOrigin(0, 0);
     this.bar.setImmovable();
-    // this.bar.setSize(10, 300); // Define a área de colisão da barra
+    // this.bar.setSize(45, 200); // Define a área de colisão da barra
 
     // Animação da barra
     this.scene.tweens.add({
@@ -61,6 +61,14 @@ class GrabBar {
 
       // calcula a diferença entre o y da barra e o y da bola na hora da colisão
       this.collisionDifference = this.scene.ball.ball.y - this.bar.y;
+    }
+
+    // Para ricochetear para outro lado caso a bola bata embaixo da barra
+    if (this.scene.ball.ball.y > this.bar.y + this.bar.displayHeight - 10) { // numero magico
+      this.scene.ball.ball.vx *= -1;
+      this.scene.ball.ball.vy *= -1;
+      
+      this.scene.ball.moveBall();
     }
   };
 
