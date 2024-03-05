@@ -1,6 +1,6 @@
-class Stage1 extends Phaser.Scene {
+class Stage2 extends Phaser.Scene {
   constructor() {
-    super("Stage1");
+    super("Stage2");
   }
   preload() { }
 
@@ -20,15 +20,20 @@ class Stage1 extends Phaser.Scene {
     // Grupo das grabBars
     this.grabBarsGroup = [];
 
-    const bar1 = new HorizontalGrabBar(-20, -20, 1100, this);
-    // const bar2 = new HorizontalGrabBar(0, 700, 600, this);
-    // new DefaultBar(600, 1000, 1000, this);
-    new DefaultBar(100, 700, 700, this);
-    // const bar3 = new GrabBar(600, 940, 940, this)
+    const bar1 = new HorizontalGrabBar(100, 350, 300, this, 1500);
+    const bar2 = new GrabBar(600, 700, 1100, this, 1200);
+    const bar3 = new GrabBar(50, 600, 600, this);
+    console.log(bar3)
+    const bar4 = new DefaultBar(710, 0, 0, this);
+    bar4.bar.displayHeight = 500;
+    const topBar = new DefaultBar(400, 0, 0, this);
+    topBar.bar.displayWidth = game.config.width;
+    topBar.bar.displayHeight = 30;
 
     this.grabBarsGroup.push(
       bar1,
-      // bar3
+      bar2,
+      bar3,
     );
 
     // Evento de clique

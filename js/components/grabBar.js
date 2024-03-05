@@ -1,5 +1,5 @@
 class GrabBar {
-  constructor(x, initialY, finalY, scene, speed = 2000) {
+  constructor(x, initialY, finalY, scene, speed = 2000, lockThrowingDirection = false) {
     this.scene = scene;
     this.x = x;
     this.y = initialY;
@@ -8,6 +8,8 @@ class GrabBar {
     this.collision;
     this.collisionDifference = 0;
     this.ballCollision = false;
+    this.lockThrowingDirection = lockThrowingDirection;
+    this.numberOfThrows = 0;
 
     this.bar = this.scene.physics.add.image(this.x, this.y, "grabBar");
     this.bar.displayWidth = 30;
@@ -49,9 +51,13 @@ class GrabBar {
   grabBall = () => {
     if (!this.ballCollision) {
 
-      console.log(this.bar)
       // pra mudar a direção da bola depois que desgrudar
       this.scene.ball.ball.vx *= -1;
+
+      this.numberOfThrows += 1;
+      if (this.numberOfThrows > 1) {
+        this.scene.ball.ball.vy *= -1;
+      }
 
       // this.scene.moveBall();
 
@@ -67,7 +73,7 @@ class GrabBar {
     if (this.scene.ball.ball.y > this.bar.y + this.bar.displayHeight - 10) { // numero magico
       this.scene.ball.ball.vx *= -1;
       this.scene.ball.ball.vy *= -1;
-      
+
       this.scene.ball.moveBall();
     }
   };

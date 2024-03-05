@@ -30,6 +30,8 @@ class Ball {
   };
 
   restoreBallInitialPosition() {
+    this.scene.grabBarsGroup.forEach((bar) => bar.numberOfThrows = 0);
+
     this.ball.setPosition(...this.ballInitialPosition);
     // Restaura a velocidade inicial (caso uma das duas estivesse negativa quando saiu da tela)
     this.ball.vx = Math.abs(this.ball.speed);
