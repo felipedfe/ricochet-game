@@ -13,29 +13,32 @@ class TestStage extends Phaser.Scene {
 
     // Bola
     this.ball = new Ball(this);
+    // new Ball(this);
 
     // Buraco
     new Hole(150, 0, this);
 
     // Grupo das grabBars
     this.grabBarsGroup = [];
+    // this.grabBarsGroup = this.add.group(); 
 
     const bar1 = new HorizontalGrabBar(100, 350, 300, this, 1500);
+    this.grabBarsGroup.push(bar1);
+
     const bar2 = new GrabBar(600, 700, 1100, this, 1200);
+    this.grabBarsGroup.push(bar2);
+
     const bar3 = new GrabBar(50, 600, 600, this, 2000, true);
+    this.grabBarsGroup.push(bar3);
+
     const bar4 = new DefaultBar(710, 0, 0, this);
     bar4.bar.displayHeight = 500;
     const topBar = new DefaultBar(400, 0, 0, this);
     topBar.bar.displayWidth = game.config.width;
     topBar.bar.displayHeight = 30;
 
-    this.grabBarsGroup.push(
-      bar1,
-      bar2,
-      bar3,
-    );
-
     // Evento de clique
+    console.log(this)
     this.input.on("pointerdown", this.ball.moveBall);
     this.input.keyboard.on('keydown-SPACE', this.ball.moveBall);
     this.input.keyboard.on('keydown-A', this.ball.moveBall);

@@ -51,6 +51,8 @@ class SceneLoad extends Phaser.Scene {
     // quando terminar o loading caimos aqui
     this.scene.start("TestStage");
     // this.scene.start("SceneTitle");
+    // this.scene.start("Stage1");
+    // this.scene.start("Stage2");
   }
 
   showProgress = (progress) => {

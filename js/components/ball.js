@@ -15,13 +15,21 @@ class Ball {
 
   moveBall = () => {
     // Para tirar a colisão das Grab Bars
+    // if (this.scene.grabBarsGroup?.length > 0) {
+    //   this.scene.grabBarsGroup.forEach((bar) => {
+    //     bar.ballCollision = false;
+    //   })
+    // }
+
+    // Para tirar a colisão das Grab Bars sem iterar sobre todas as barras
     if (this.scene.grabBarsGroup?.length > 0) {
-      this.scene.grabBarsGroup.forEach((bar) => {
+      const bar = this.scene.grabBarsGroup.find((bar) => bar.id === this.scene.ball.collidedBarId)
+
+      if (bar) {
         bar.ballCollision = false;
-      })
+      }
     }
 
-    // this.ball.setVelocity(this.ball.vx, -this.ball.vy);
     this.ball.setVelocity(this.ball.vx, this.ball.vy);
   };
 

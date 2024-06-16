@@ -41,8 +41,8 @@ class DefaultBar {
       this.scene.ball.ball.vx *= -1;
       this.scene.ball.ball.vy *= -1;
       
-      console.log("ball: ", this.scene.ball.ball.y)
-      console.log("bar: ",this.bar.y + this.bar.displayHeight - 10)
+      // console.log("ball: ", this.scene.ball.ball.y)
+      // console.log("bar: ",this.bar.y + this.bar.displayHeight - 10)
     }
     
     this.scene.ball.moveBall();

@@ -1,5 +1,8 @@
 class GrabBar {
+  static lastId = 0; // Variável estática para manter o ID da última barra criada
+
   constructor(x, initialY, finalY, scene, speed = 2000, lockThrowingDirection = false) {
+    this.id = GrabBar.generateId();
     this.scene = scene;
     this.x = x;
     this.y = initialY;
@@ -38,6 +41,10 @@ class GrabBar {
     this.addCollision();
   }
 
+  static generateId() {
+    return ++GrabBar.lastId; // Incrementa e retorna o novo ID
+  }
+
   addCollision = () => {
     this.collision = this.scene.physics.add.collider(
       this.scene.ball.ball,
@@ -49,6 +56,9 @@ class GrabBar {
   };
 
   grabBall = () => {
+    const ballObject = this.scene.ball;
+    ballObject.collidedBarId = this.id;
+
     if (!this.ballCollision) {
 
       // pra mudar a direção da bola depois que desgrudar
@@ -59,14 +69,14 @@ class GrabBar {
         this.scene.ball.ball.vy *= -1;
       }
 
-      // this.scene.moveBall();
-
       this.ballCollision = true;
       this.scene.ball.stopBall();
       // this.collision.destroy();
 
       // calcula a diferença entre o y da barra e o y da bola na hora da colisão
       this.collisionDifference = this.scene.ball.ball.y - this.bar.y;
+
+      console.log("---->", this.scene.ball.collidedBarId)
     }
 
     // Para ricochetear para outro lado caso a bola bata embaixo da barra
@@ -76,6 +86,8 @@ class GrabBar {
 
       this.scene.ball.moveBall();
     }
+
+    console.log(this.id)
   };
 
   updateBallPosition = () => {

@@ -1,5 +1,8 @@
 class HorizontalGrabBar {
+  static lastId = 0; // Variável estática para manter o ID da última barra criada
+
   constructor(x, finalX, y, scene, speed = 2000) {
+    this.id = GrabBar.generateId();
     this.scene = scene;
     this.x = x;
     this.y = y;
@@ -36,6 +39,10 @@ class HorizontalGrabBar {
     this.addCollision();
   }
 
+  static generateId() {
+    return ++GrabBar.lastId; // Incrementa e retorna o novo ID
+  }
+
   addCollision = () => {
     this.collision = this.scene.physics.add.collider(
       this.scene.ball.ball,
@@ -47,6 +54,9 @@ class HorizontalGrabBar {
   };
 
   grabBall = () => {
+    const ballObject = this.scene.ball;
+    ballObject.collidedBarId = this.id;
+
     if (!this.ballCollision) {
 
       // pra mudar a direção da bola depois que desgrudar
@@ -70,6 +80,8 @@ class HorizontalGrabBar {
 
       this.scene.ball.moveBall();
     }
+
+    console.log(this.id)
   };
 
   updateBallPosition = () => {
