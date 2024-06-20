@@ -39,10 +39,10 @@ class TestStage extends Phaser.Scene {
     // topBar.bar.displayWidth = 800;
     // topBar.bar.displayHeight = 900;
 
-    // const bar3 = new GrabBar(520, 900, 900, this, 2000, true);
-    // this.grabBarsGroup.push(bar3);
+    const bar3 = new GrabBar(520, 1200, 1200, this, 2000, true);
+    this.grabBarsGroup.push(bar3);
 
-    const defaultBar = new DefaultBar(250, 1240, 1240, this);  
+    // const defaultBar = new DefaultBar(520, 1000, 1000, this);  
     // const defaultBar = new DefaultBar(520, 1300, 1300, this);  
 
     // defaultBar.bar.displayWidth = 20;

@@ -39,7 +39,7 @@ class Ball {
     // this.ball.setVelocity(-this.ball.vx, -this.ball.vy);
 
       // movimento teste
-    this.ball.setVelocity(-this.ball.vx, this.ball.vy);
+    // this.ball.setVelocity(-this.ball.vx, this.ball.vy);
   };
 
   stopBall = () => {

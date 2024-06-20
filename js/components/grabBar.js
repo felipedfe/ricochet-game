@@ -85,11 +85,38 @@ class GrabBar {
     }
 
     // Para ricochetear para outro lado caso a bola bata embaixo da barra
-    if (this.scene.ball.ball.y > this.bar.y + this.bar.displayHeight - 10) { // numero magico
+    // if (this.scene.ball.ball.y > this.bar.y + this.bar.displayHeight - 10) { // numero magico
+    //   this.scene.ball.ball.vx *= -1;
+    //   this.scene.ball.ball.vy *= -1;
+
+    //   this.scene.ball.moveBall();
+    // }
+
+    // Para ricochetear para outro lado caso a bola bata EMBAIXO da barra
+    let barCollisionBottom = this.bar.y + this.bar.displayHeight - this.bar.body.offset.y;
+
+    // Verifica se a bola está se movendo para baixo e bate EMBAIXO da barra
+    console.log((this.scene.ball.ball.y) > barCollisionBottom)
+    console.log(this.scene.ball.ball.y)
+    console.log(this.bar.body.offset.y)
+    console.log(barCollisionBottom)
+    if (
+      // this.scene.ball.ball.vy > 0 &&
+      (this.scene.ball.ball.y) > barCollisionBottom &&
+      !this.scene.ball.isColliding) {
+
+      this.scene.ball.isColliding = true; // Marca a bola como colidindo
       this.scene.ball.ball.vx *= -1;
       this.scene.ball.ball.vy *= -1;
 
+      // Log para debugging
+      console.log("Ricochete na parte inferior da barra:", this.scene.ball.ball.y, "Fundo da barra:", barCollisionBottom);
       this.scene.ball.moveBall();
+
+      // Resetar o estado de colisão após um pequeno atraso
+      setTimeout(() => {
+        this.scene.ball.isColliding = false;
+      }, 100); // 100 milissegundos para evitar colisões repetidas
     }
 
     console.log(this.id)
