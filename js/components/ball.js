@@ -1,8 +1,10 @@
 class Ball {
-  constructor(scene) {
+  defaultPosition = [game.config.width / 2, game.config.height - 40];
+
+  constructor(scene, ballInitialPosition = this.defaultPosition) {
     this.scene = scene;
 
-    this.ballInitialPosition = [game.config.width / 2, game.config.height - 40];
+    this.ballInitialPosition = ballInitialPosition  
     this.ball = this.scene.physics.add.image(...this.ballInitialPosition, "ball");
     this.ball.displayWidth = 40;
     this.ball.displayHeight = this.ball.displayWidth;
@@ -30,7 +32,14 @@ class Ball {
       }
     }
 
+    // movimento original
     this.ball.setVelocity(this.ball.vx, this.ball.vy);
+
+    // movimento teste
+    // this.ball.setVelocity(-this.ball.vx, -this.ball.vy);
+
+      // movimento teste
+    this.ball.setVelocity(-this.ball.vx, this.ball.vy);
   };
 
   stopBall = () => {

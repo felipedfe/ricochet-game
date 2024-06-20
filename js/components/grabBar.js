@@ -21,6 +21,10 @@ class GrabBar {
     this.bar.setImmovable();
     // this.bar.setSize(45, 200); // Define a área de colisão da barra
 
+    let proportionWidth = this.bar.displayWidth * 1.1; // 80% da largura do this.bar
+    let proportionHeight = this.bar.displayHeight * 1.35; // 80% da altura do this.bar
+    this.bar.setSize(proportionWidth, proportionHeight);
+
     // Animação da barra
     this.scene.tweens.add({
       targets: this.bar,
@@ -73,8 +77,9 @@ class GrabBar {
       this.scene.ball.stopBall();
       // this.collision.destroy();
 
-      // calcula a diferença entre o y da barra e o y da bola na hora da colisão
-      this.collisionDifference = this.scene.ball.ball.y - this.bar.y;
+      // calcula a diferença entre o y da barra e o y da bola na hora da colisão (offset se refere à caixa de colisão)
+      this.collisionDifference = this.scene.ball.ball.y - (this.bar.y - this.bar.body.offset.y);
+      console.log("colision diference: ", this.collisionDifference)
 
       console.log("---->", this.scene.ball.collidedBarId)
     }
@@ -88,6 +93,34 @@ class GrabBar {
     }
 
     console.log(this.id)
+
+    // Para ricochetear para outro lado caso a bola bata EM CIMA da barra
+
+    // Offset se refere à posicao da área de colisão
+    let barCollisionTop = this.bar.y + this.bar.body.offset.y;
+
+    // Verifica se a bola bate EM CIMA da barra
+    if (this.scene.ball.ball.vy < 0 &&
+      (
+        this.scene.ball.ball.y
+        + this.scene.ball.ball.displayHeight
+      ) < barCollisionTop
+      && !this.scene.ball.isColliding) {
+      this.scene.ball.isColliding = true; // Marca a bola como colidindo
+      this.scene.ball.ball.vx *= -1;
+      this.scene.ball.ball.vy *= -1;
+
+      this.scene.ball.moveBall();
+
+
+      // Resetar o estado de colisão após um pequeno atraso
+      setTimeout(() => {
+        this.scene.ball.isColliding = false;
+      }, 100); // 100 milissegundos para evitar colisões repetidas
+
+      console.log("Ricochete na parte superior da barra:", this.scene.ball.ball.y + this.scene.ball.ball.displayHeight, "Topo da barra:", barCollisionTop);
+    }
+    console.log(this.scene.ball.ball.vy)
   };
 
   updateBallPosition = () => {

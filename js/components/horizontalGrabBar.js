@@ -2,7 +2,7 @@ class HorizontalGrabBar {
   static lastId = 0; // Variável estática para manter o ID da última barra criada
 
   constructor(x, finalX, y, scene, speed = 2000) {
-    this.id = GrabBar.generateId();
+    this.id = HorizontalGrabBar.generateId();
     this.scene = scene;
     this.x = x;
     this.y = y;
