@@ -19,6 +19,10 @@ class HorizontalGrabBar {
     this.bar.setImmovable();
     // this.bar.setSize(45, 300); // Define a área de colisão da barra
 
+    let proportionWidth = this.bar.displayHeight * 1.5; // 80% da largura do this.bar
+    let proportionHeight = this.bar.displayWidth * 1.; // 80% da altura do this.bar
+    this.bar.setSize(proportionWidth, proportionHeight);
+
     // Animação da barra
     this.scene.tweens.add({
       targets: this.bar,
