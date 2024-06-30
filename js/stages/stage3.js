@@ -1,6 +1,6 @@
-class Stage2 extends Phaser.Scene {
+class Stage3 extends Phaser.Scene {
   constructor() {
-    super("Stage2");
+    super("Stage3");
   }
   preload() { }
 
@@ -12,33 +12,50 @@ class Stage2 extends Phaser.Scene {
     this.bg.displayHeight = game.config.height;
 
     // Bola
+    // this.ball = new Ball(this, [game.config.width / 2 + 300, game.config.height - 250]);
     this.ball = new Ball(this);
-    // this.ball = new Ball(this, [game.config.width / 2, game.config.height - 1100]);
+
+    // new Ball(this);
 
     // Buraco
     new Hole(150, 0, this);
 
     // Grupo das grabBars
     this.grabBarsGroup = [];
+    // this.grabBarsGroup = this.add.group(); 
 
     // const bar1 = new HorizontalGrabBar(100, 350, 300, this, 1500);
-    const bar2 = new GrabBar(600, 700, 1100, this, 1200, false, false, true);
-    // const bar2 = new GrabBar(600, 970, 970, this, 1200);
-    const bar3 = new GrabBar(50, 600, 600, this, 2000, false, false, false);
-    
-    const bar4 = new DefaultBar(710, 0, 0, this);
-    bar4.bar.displayHeight = 500;
-    const topBar = new DefaultBar(400, 0, 0, this);
-    topBar.bar.displayWidth = game.config.width;
-    topBar.bar.displayHeight = 30;
+    // this.grabBarsGroup.push(bar1);
 
-    this.grabBarsGroup.push(
-      // bar1,
-      bar2,
-      bar3,
-    );
+    // const bar2 = new GrabBar(600, 700, 1100, this, 1200);
+    // this.grabBarsGroup.push(bar2);
+
+
+
+    // const bar4 = new DefaultBar(710, 600, 600, this);
+    // bar4.bar.displayHeight = 500;
+
+    // const topBar = new DefaultBar(600, 1200, 1200, this);
+    // topBar.bar.displayWidth = 800;
+    // topBar.bar.displayHeight = 900;
+
+    const bar1 = new GrabBar(525, 1060, 1060, this, 2000, true, undefined, true, undefined);
+    this.grabBarsGroup.push(bar1);
+
+    // const defaultBar = new DefaultBar(520, 1000, 1000, this);  
+    // const defaultBar = new DefaultBar(520, 1300, 1300, this);  
+
+    // defaultBar.bar.displayWidth = 20;
+    // defaultBar.bar.displayHeight = 300;
+
+    // const grabBar = new HorizontalGrabBar(520, 520, 1260, this);
+    // this.grabBarsGroup.push(grabBar);
+
+
+
 
     // Evento de clique
+    console.log(this)
     this.input.on("pointerdown", this.ball.moveBall);
     this.input.keyboard.on('keydown-SPACE', this.ball.moveBall);
     this.input.keyboard.on('keydown-A', this.ball.moveBall);

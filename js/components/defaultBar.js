@@ -40,6 +40,7 @@ class DefaultBar {
   }
 
   changeDirection = () => {
+    console.log("-_-_->"  ,this.scene.ball.ball.body.velocity.x)  
     this.scene.ball.ball.vx *= -1;
 
     // Para ricochetear para outro lado caso a bola bata EMBAIXO da barra

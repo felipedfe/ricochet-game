@@ -58,6 +58,7 @@ window.onload = function () {
       //SceneTitle,
       // Stage1,
       Stage2,
+      // Stage3,
       // TestStage,
       SceneMain,
       SceneOver,
