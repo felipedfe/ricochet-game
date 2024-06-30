@@ -45,7 +45,7 @@ window.onload = function () {
     physics: {
       default: 'arcade',
       arcade: {
-        debug: true, 
+        debug: true,
       }
     },
     scale: {
@@ -57,8 +57,8 @@ window.onload = function () {
       SceneLoad,
       //SceneTitle,
       // Stage1,
-      Stage2,
-      // Stage3,
+      // Stage2,
+      Stage3,
       // TestStage,
       SceneMain,
       SceneOver,

@@ -64,9 +64,9 @@ class GrabBar {
   };
 
   grabBall = () => {
-    console.log(this.ball.x + this.ball.displayWidth / 2 < this.bar.x)
-    console.log(this.ball.x + this.ball.displayWidth / 2, '/', this.bar.x)
-    console.log(this.ball.x + this.ball.displayWidth / 2)
+    // console.log(this.ball.x + this.ball.displayWidth / 2 < this.bar.x)
+    // console.log(this.ball.x + this.ball.displayWidth / 2, '/', this.bar.x)
+    // console.log(this.ball.x + this.ball.displayWidth / 2)
     console.log('tem ser false', this.ball.x + this.ball.displayWidth / 2 < this.bar.x)
     const ballObject = this.scene.ball;
     ballObject.collidedBarId = this.id;
@@ -77,18 +77,18 @@ class GrabBar {
       this.ball.vx *= -1;
 
       this.numberOfThrows += 1;
-      if (this.numberOfThrows > 1) {
+      if (this.numberOfThrows > 1 && this.lockThrowingDirection) {
         this.ball.vy *= -1;
       }
 
       this.ballCollision = true;
-      console.log("qqqqqq", this.ball.body.velocity.x)
+      // console.log("qqqqqq", this.ball.body.velocity.x)
       this.scene.ball.stopBall();
       // this.collision.destroy();
 
       // calcula a diferença entre o y da barra e o y da bola na hora da colisão (offset se refere à caixa de colisão)
       this.collisionDifference = this.ball.y - this.bar.y + this.ball.displayHeight / 2;
-      console.log("colision diference: ", this.collisionDifference)
+      // console.log("colision diference: ", this.collisionDifference)
 
       // console.log("---->", this.scene.ball.collidedBarId)
     }
@@ -105,10 +105,10 @@ class GrabBar {
     let barCollisionBottom = this.bar.y + this.bar.displayHeight - this.bar.body.offset.y;
 
     // Verifica se a bola está se movendo para baixo e bate EMBAIXO da barra
-    console.log((this.ball.y) > barCollisionBottom)
-    console.log(this.ball.y)
-    console.log(this.bar.body.offset.y)
-    console.log(barCollisionBottom)
+    // console.log((this.ball.y) > barCollisionBottom)
+    // console.log(this.ball.y)
+    // console.log(this.bar.body.offset.y)
+    // console.log(barCollisionBottom)
     if (
       // this.ball.vy > 0 &&
       (this.ball.y) > barCollisionBottom &&
@@ -147,7 +147,7 @@ class GrabBar {
       this.ball.vx *= -1;
       this.ball.vy *= -1;
 
-      console.log("+++++++++++++++++++++++++++++++")
+      // console.log("+++++++++++++++++++++++++++++++") 
       // this.scene.ball.ball.vx *= -1;
       this.scene.ball.ball.vy *= -1;
 
@@ -166,9 +166,9 @@ class GrabBar {
       this.scene.ball.moveBall();
     }
 
-    console.log("----1----", this.ball.x + this.ball.displayWidth / 2)
-    console.log("----2----", this.bar.x + this.bar.body.offset.x)
-    console.log("----3----", this.ricochetLeft)
+    // console.log("----1----", this.ball.x + this.ball.displayWidth / 2)
+    // console.log("----2----", this.bar.x + this.bar.body.offset.x)
+    // console.log("----3----", this.ricochetLeft)
 
     console.log(this.ball.vy)
   };
@@ -181,7 +181,7 @@ class GrabBar {
     // console.log('tem ser false', this.ball.x + this.ball.displayWidth / 2 < this.bar.x)
 
     if ((this.ball.x + this.ball.displayWidth / 2 < this.bar.x) && (this.ball.y + this.ball.displayHeight > this.bar.y)) {
-      console.log('---------------------------------------------------------------------------------------------left')
+      // console.log('---------------------------------------------------------------------------------------------left')
       // console.log("pppppp",this.ball.body.velocity.x > 0)
       // console.log("qqqqqq",this.ball.body.velocity.x)
       // esquerda
@@ -200,7 +200,7 @@ class GrabBar {
     }
 
     // console.log("--------------->", this.ball.x + this.ball.displayWidth / 2 < this.bar.x)
-    console.log(this.ball.x + this.ball.displayWidth / 2, '/', this.bar.x)
+    // console.log(this.ball.x + this.ball.displayWidth / 2, '/', this.bar.x)
     this.ball.y = this.bar.y + this.collisionDifference - (this.ball.displayHeight / 2);
 
   };
@@ -242,6 +242,9 @@ class GrabBar {
   // };
 
 }
+
+/////////////////////////////
+
 
 // class GrabBar {
 //   static lastId = 0; // Variável estática para manter o ID da última barra criada

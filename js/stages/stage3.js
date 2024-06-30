@@ -39,20 +39,41 @@ class Stage3 extends Phaser.Scene {
     // topBar.bar.displayWidth = 800;
     // topBar.bar.displayHeight = 900;
 
-    const bar1 = new GrabBar(525, 1060, 1060, this, 2000, true, undefined, true, undefined);
-    this.grabBarsGroup.push(bar1);
+    // BARRAS
+    const grabBar1 = new GrabBar(game.config.width - 30, 950, 950, this, 2000);
+    this.grabBarsGroup.push(grabBar1);
 
-    // const defaultBar = new DefaultBar(520, 1000, 1000, this);  
-    // const defaultBar = new DefaultBar(520, 1300, 1300, this);  
+    new DefaultBar(520, 900, 1150, this, 800);
 
-    // defaultBar.bar.displayWidth = 20;
-    // defaultBar.bar.displayHeight = 300;
+    // centro
+    new DefaultBar(350, 630, 900, this, 500);
 
-    // const grabBar = new HorizontalGrabBar(520, 520, 1260, this);
-    // this.grabBarsGroup.push(grabBar);
+    // canto esquerdo
+    new DefaultBar(40, 830, 830, this, 500);
 
+    // cima
+    const horizontalBar1 = new DefaultBar(260, 600, 600, this)
+    horizontalBar1.bar.displayWidth = 200;
+    horizontalBar1.bar.displayHeight = 30;
 
+    const horizontalGrabBar1 = new HorizontalGrabBar(90, 90, 1000, this);
+    this.grabBarsGroup.push(horizontalGrabBar1);
 
+    // canto esquerdo
+    const grabBar2 = new GrabBar(40, 300, 630, this, 1200);
+    this.grabBarsGroup.push(grabBar2);
+
+    // quina do canto direito
+    const verticalBar1 = new DefaultBar(game.config.width - 30, 0, 0, this);
+    verticalBar1.bar.displayHeight = 350;
+
+    const horizontalBar2 = new DefaultBar(550, 0, 0, this);
+    horizontalBar2.bar.displayWidth = 200;
+    horizontalBar2.bar.displayHeight = 30;
+
+    // horizontal grab bar de cima
+    const horizontalGrabBar2 = new HorizontalGrabBar(100, 500, 300, this, 700);
+    this.grabBarsGroup.push(horizontalGrabBar2);
 
     // Evento de clique
     console.log(this)
