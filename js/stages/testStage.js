@@ -12,8 +12,8 @@ class TestStage extends Phaser.Scene {
     this.bg.displayHeight = game.config.height;
 
     // Bola
-    // this.ball = new Ball(this, [game.config.width / 2 + 300, game.config.height - 250]);
-    this.ball = new Ball(this);
+    this.ball = new Ball(this, [game.config.width / 2 + 300, game.config.height - 330]);
+    // this.ball = new Ball(this);
 
     // new Ball(this);
 

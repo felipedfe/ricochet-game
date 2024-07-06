@@ -67,12 +67,12 @@ class Stage3 extends Phaser.Scene {
     const verticalBar1 = new DefaultBar(game.config.width - 30, 0, 0, this);
     verticalBar1.bar.displayHeight = 350;
 
-    const horizontalBar2 = new DefaultBar(550, 0, 0, this);
-    horizontalBar2.bar.displayWidth = 200;
+    const horizontalBar2 = new DefaultBar(350, 0, 0, this);
+    horizontalBar2.bar.displayWidth = 450;
     horizontalBar2.bar.displayHeight = 30;
 
     // horizontal grab bar de cima
-    const horizontalGrabBar2 = new HorizontalGrabBar(100, 500, 300, this, 700);
+    const horizontalGrabBar2 = new HorizontalGrabBar(200, 500, 400, this, 700);
     this.grabBarsGroup.push(horizontalGrabBar2);
 
     // Evento de clique

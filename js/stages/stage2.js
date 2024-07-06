@@ -22,9 +22,10 @@ class Stage2 extends Phaser.Scene {
     this.grabBarsGroup = [];
 
     // const bar1 = new HorizontalGrabBar(100, 350, 300, this, 1500);
-    const bar2 = new GrabBar(600, 700, 1100, this, 1200, false, false, true);
+    const bar2 = new GrabBar(600, 700, 1100, this, 1200);
     // const bar2 = new GrabBar(600, 970, 970, this, 1200);
-    const bar3 = new GrabBar(50, 600, 600, this, 2000, false, false, false);
+    // const bar3 = new GrabBar(50, 600, 600, this, 2000, false, false, false);
+    const bar5 = new GrabBar(50, 600, 600, this, 2000);
     
     const bar4 = new DefaultBar(710, 0, 0, this);
     bar4.bar.displayHeight = 500;
@@ -35,7 +36,8 @@ class Stage2 extends Phaser.Scene {
     this.grabBarsGroup.push(
       // bar1,
       bar2,
-      bar3,
+      // bar3,
+      bar5,
     );
 
     // Evento de clique

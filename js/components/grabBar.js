@@ -147,9 +147,7 @@ class GrabBar {
       this.ball.vx *= -1;
       this.ball.vy *= -1;
 
-      // console.log("+++++++++++++++++++++++++++++++") 
-      // this.scene.ball.ball.vx *= -1;
-      this.scene.ball.ball.vy *= -1;
+      console.log("+++++++++++++++++++++++++++++++") 
 
 
       // Resetar o estado de colisão após um pequeno atraso

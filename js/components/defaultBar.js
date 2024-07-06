@@ -65,7 +65,7 @@ class DefaultBar {
       this.scene.ball.ball.vy *= -1;
 
       // Log para debugging
-      console.log("Ricochete na parte inferior da barra:", this.scene.ball.ball.y, "Fundo da barra:", barCollisionBottom);
+      // console.log("Ricochete na parte inferior da barra:", this.scene.ball.ball.y, "Fundo da barra:", barCollisionBottom);
 
       // Resetar o estado de colisão após um pequeno atraso
       setTimeout(() => {
