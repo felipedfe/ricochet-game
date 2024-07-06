@@ -1,6 +1,6 @@
 class SceneLoad extends Phaser.Scene {
   constructor() {
-    super('SceneLoad');
+    super("SceneLoad");
   }
 
   preload() {
@@ -28,6 +28,9 @@ class SceneLoad extends Phaser.Scene {
 
     // buraco
     this.load.image("hole", "images/hole.png");
+
+    // warp
+    this.load.image("warp", "images/warp.png");
 
     // audios
     // this.load.audio("right", "audio/right.wav");

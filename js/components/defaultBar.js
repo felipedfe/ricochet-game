@@ -1,10 +1,11 @@
 class DefaultBar {
-  constructor(x, initialY, finalY, scene, speed = 2000) {
+  constructor(x, initialY, finalY, scene, speed = 2000, orientation = "vert") {
     this.scene = scene;
     this.x = x;
     this.y = initialY;
     this.finalY = finalY;
     this.speed = speed;
+    this.orientation = orientation;
 
     this.bar = this.scene.physics.add.image(this.x, this.y, "defaultBar");
     this.bar.displayWidth = 30;
@@ -14,9 +15,14 @@ class DefaultBar {
     // this.bar.setSize(47, 200); // Define a área de colisão da barra
     // this.bar.setSize(50, 270); // Define a área de colisão da barra
 
-    let proportionWidth = this.bar.displayWidth * 1.1; // 80% da largura do this.bar
-    let proportionHeight = this.bar.displayHeight * 1.35; // 80% da altura do this.bar
-    this.bar.setSize(proportionWidth, proportionHeight);
+    let proportionWidth = this.bar.width * 0.7;
+    let proportionHeight = this.bar.height * 0.95;
+
+    if (orientation === 'hor') {
+      proportionWidth = this.bar.width * 0.95;
+      proportionHeight = this.bar.height * 0.7;
+    }
+    this.bar.setSize(proportionWidth, proportionHeight, true);
     // this.bar.setOffset(0, 0);  // Garante que o offset de colisão seja alinhado ao canto superior esquerdo do sprite
 
     // Animação da barra
@@ -40,7 +46,7 @@ class DefaultBar {
   }
 
   changeDirection = () => {
-    console.log("-_-_->"  ,this.scene.ball.ball.body.velocity.x)  
+    console.log("-_-_->", this.scene.ball.ball.body.velocity.x)
     this.scene.ball.ball.vx *= -1;
 
     // Para ricochetear para outro lado caso a bola bata EMBAIXO da barra

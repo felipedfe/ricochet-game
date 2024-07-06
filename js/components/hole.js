@@ -9,7 +9,7 @@ class Hole {
     this.hole.displayHeight = 20;
     this.hole.setOrigin(0, 0);
     this.hole.setImmovable();
-    // this.hole.setSize(10, 300); // Define a área de colisão da barra
+    // this.hole.setSize(10, 300);
 
     this.scene.physics.add.overlap(
       this.scene.ball.ball,

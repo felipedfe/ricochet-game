@@ -52,7 +52,7 @@ class Stage3 extends Phaser.Scene {
     new DefaultBar(40, 830, 830, this, 500);
 
     // cima
-    const horizontalBar1 = new DefaultBar(260, 600, 600, this)
+    const horizontalBar1 = new DefaultBar(260, 600, 600, this, 2000, 'hor');
     horizontalBar1.bar.displayWidth = 200;
     horizontalBar1.bar.displayHeight = 30;
 
@@ -67,7 +67,7 @@ class Stage3 extends Phaser.Scene {
     const verticalBar1 = new DefaultBar(game.config.width - 30, 0, 0, this);
     verticalBar1.bar.displayHeight = 350;
 
-    const horizontalBar2 = new DefaultBar(350, 0, 0, this);
+    const horizontalBar2 = new DefaultBar(350, 0, 0, this, 2000, 'hor');
     horizontalBar2.bar.displayWidth = 450;
     horizontalBar2.bar.displayHeight = 30;
 
@@ -75,8 +75,10 @@ class Stage3 extends Phaser.Scene {
     const horizontalGrabBar2 = new HorizontalGrabBar(200, 500, 400, this, 700);
     this.grabBarsGroup.push(horizontalGrabBar2);
 
+    // WARP
+    // const warp1 = new Warp(300, 300, this);
+
     // Evento de clique
-    console.log(this)
     this.input.on("pointerdown", this.ball.moveBall);
     this.input.keyboard.on('keydown-SPACE', this.ball.moveBall);
     this.input.keyboard.on('keydown-A', this.ball.moveBall);

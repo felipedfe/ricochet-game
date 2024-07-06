@@ -23,8 +23,8 @@ class GrabBar {
     this.bar.setImmovable();
     // this.bar.setSize(45, 200); // Define a área de colisão da barra
 
-    let proportionWidth = this.bar.displayWidth * 1.1; // 80% da largura do this.bar
-    let proportionHeight = this.bar.displayHeight * 1.2; // 80% da altura do this.bar
+    let proportionWidth = this.bar.width * 0.7;
+    let proportionHeight = this.bar.height * 0.9;
     this.bar.setSize(proportionWidth, proportionHeight);
 
     // Animação da barra

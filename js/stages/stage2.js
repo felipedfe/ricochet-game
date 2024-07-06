@@ -23,22 +23,24 @@ class Stage2 extends Phaser.Scene {
 
     // const bar1 = new HorizontalGrabBar(100, 350, 300, this, 1500);
     const bar2 = new GrabBar(600, 700, 1100, this, 1200);
+    this.grabBarsGroup.push(bar2);
     // const bar2 = new GrabBar(600, 970, 970, this, 1200);
     // const bar3 = new GrabBar(50, 600, 600, this, 2000, false, false, false);
-    const bar5 = new GrabBar(50, 600, 600, this, 2000);
-    
+    // this.grabBarsGroup.push(bar3);
+    const bar5 = new GrabBar(50, 400, 700, this, 1500);
+    this.grabBarsGroup.push(bar5);
+
     const bar4 = new DefaultBar(710, 0, 0, this);
     bar4.bar.displayHeight = 500;
     const topBar = new DefaultBar(400, 0, 0, this);
     topBar.bar.displayWidth = game.config.width;
     topBar.bar.displayHeight = 30;
 
-    this.grabBarsGroup.push(
-      // bar1,
-      bar2,
-      // bar3,
-      bar5,
-    );
+    // WARP
+    // const warp1 = new Warp(350, 350, this);
+    // const warp2 = new Warp(200, 200, this);
+
+    const warpZone = new WarpZone(50, 100, 350, 350, this);
 
     // Evento de clique
     this.input.on("pointerdown", this.ball.moveBall);
