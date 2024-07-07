@@ -1,13 +1,19 @@
 class DefaultBar {
-  constructor(x, initialY, finalY, scene, speed = 2000, orientation = "vert") {
+  constructor(x, initialY, finalY, scene,  options = {}) {
     this.scene = scene;
     this.x = x;
     this.y = initialY;
     this.finalY = finalY;
+    
+    const {
+      speed = 2000,
+      orientation = 'vert'
+    } = options;
+
     this.speed = speed;
     this.orientation = orientation;
 
-    this.bar = this.scene.physics.add.image(this.x, this.y, "defaultBar");
+    this.bar = this.scene.physics.add.image(this.x, this.y, "defaultBar"); 
     this.bar.displayWidth = 30;
     this.bar.displayHeight = 200;
     this.bar.setOrigin(0, 0);

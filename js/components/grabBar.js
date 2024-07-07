@@ -1,12 +1,20 @@
 class GrabBar {
   static lastId = 0; // Variável estática para manter o ID da última barra criada
 
-  constructor(x, initialY, finalY, scene, speed = 2000, lockThrowingDirection = false, ricochetLeft = false, ricochetRight = false) {
+  constructor(x, initialY, finalY, scene, options = {}) {
     this.id = GrabBar.generateId();
     this.scene = scene;
     this.x = x;
     this.y = initialY;
     this.finalY = finalY;
+
+    const {
+      speed = 2000,
+      lockThrowingDirection = false,
+      ricochetLeft = false,
+      ricochetRight = false,
+    } = options;
+
     this.speed = speed;
     this.collision;
     this.collisionDifference = 0;
@@ -147,7 +155,7 @@ class GrabBar {
       this.ball.vx *= -1;
       this.ball.vy *= -1;
 
-      console.log("+++++++++++++++++++++++++++++++") 
+      console.log("+++++++++++++++++++++++++++++++")
 
 
       // Resetar o estado de colisão após um pequeno atraso

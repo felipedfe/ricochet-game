@@ -40,19 +40,19 @@ class Stage3 extends Phaser.Scene {
     // topBar.bar.displayHeight = 900;
 
     // BARRAS
-    const grabBar1 = new GrabBar(game.config.width - 30, 950, 950, this, 2000);
+    const grabBar1 = new GrabBar(game.config.width - 30, 950, 950, this);
     this.grabBarsGroup.push(grabBar1);
 
-    new DefaultBar(520, 900, 1150, this, 800);
+    new DefaultBar(520, 900, 1150, this, { speed: 800 });
 
     // centro
-    new DefaultBar(350, 630, 900, this, 500);
+    new DefaultBar(350, 630, 900, this, { speed: 500 });
 
     // canto esquerdo
-    new DefaultBar(40, 830, 830, this, 500);
+    new DefaultBar(40, 830, 830, this);
 
     // cima
-    const horizontalBar1 = new DefaultBar(260, 600, 600, this, 2000, 'hor');
+    const horizontalBar1 = new DefaultBar(260, 600, 600, this, { orientation: 'hor' });
     horizontalBar1.bar.displayWidth = 200;
     horizontalBar1.bar.displayHeight = 30;
 
@@ -60,19 +60,19 @@ class Stage3 extends Phaser.Scene {
     this.grabBarsGroup.push(horizontalGrabBar1);
 
     // canto esquerdo
-    const grabBar2 = new GrabBar(40, 300, 630, this, 1200);
+    const grabBar2 = new GrabBar(40, 300, 630, this, { speed: 1200 });
     this.grabBarsGroup.push(grabBar2);
 
     // quina do canto direito
     const verticalBar1 = new DefaultBar(game.config.width - 30, 0, 0, this);
     verticalBar1.bar.displayHeight = 350;
 
-    const horizontalBar2 = new DefaultBar(350, 0, 0, this, 2000, 'hor');
+    const horizontalBar2 = new DefaultBar(350, 0, 0, this, { orientation: 'hor' });
     horizontalBar2.bar.displayWidth = 450;
     horizontalBar2.bar.displayHeight = 30;
 
     // horizontal grab bar de cima
-    const horizontalGrabBar2 = new HorizontalGrabBar(200, 500, 400, this, 700);
+    const horizontalGrabBar2 = new HorizontalGrabBar(200, 500, 400, this, { speed: 700 });
     this.grabBarsGroup.push(horizontalGrabBar2);
 
     // WARP
@@ -81,7 +81,7 @@ class Stage3 extends Phaser.Scene {
     // Evento de clique
     this.input.on("pointerdown", this.ball.moveBall);
     this.input.keyboard.on('keydown-SPACE', this.ball.moveBall);
-    this.input.keyboard.on('keydown-A', this.ball.moveBall);
+    this.input.keyboard.on('keydown-X', this.ball.moveBall);
 
     //// fim da create ////
   }

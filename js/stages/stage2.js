@@ -22,12 +22,12 @@ class Stage2 extends Phaser.Scene {
     this.grabBarsGroup = [];
 
     // const bar1 = new HorizontalGrabBar(100, 350, 300, this, 1500);
-    const bar2 = new GrabBar(600, 700, 1100, this, 1200);
+    const bar2 = new GrabBar(600, 700, 1100, this, { speed: 1200 });
     this.grabBarsGroup.push(bar2);
     // const bar2 = new GrabBar(600, 970, 970, this, 1200);
     // const bar3 = new GrabBar(50, 600, 600, this, 2000, false, false, false);
     // this.grabBarsGroup.push(bar3);
-    const bar5 = new GrabBar(50, 400, 700, this, 1500);
+    const bar5 = new GrabBar(50, 400, 700, this, { speed: 1500 });
     this.grabBarsGroup.push(bar5);
 
     const bar4 = new DefaultBar(710, 0, 0, this);
@@ -45,7 +45,7 @@ class Stage2 extends Phaser.Scene {
     // Evento de clique
     this.input.on("pointerdown", this.ball.moveBall);
     this.input.keyboard.on('keydown-SPACE', this.ball.moveBall);
-    this.input.keyboard.on('keydown-A', this.ball.moveBall);
+    this.input.keyboard.on('keydown-X', this.ball.moveBall);
 
     //// fim da create ////
   }

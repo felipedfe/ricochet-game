@@ -1,12 +1,17 @@
 class HorizontalGrabBar {
   static lastId = 0; // Variável estática para manter o ID da última barra criada
 
-  constructor(x, finalX, y, scene, speed = 2000) {
+  constructor(x, finalX, y, scene, options = {}) {
     this.id = HorizontalGrabBar.generateId();
     this.scene = scene;
     this.x = x;
     this.y = y;
     this.finalX = finalX;
+
+    const {
+      speed = 2000,
+    } = options;
+
     this.speed = speed;
     this.collision;
     this.collisionDifference = 0;
