@@ -20,25 +20,23 @@ class Warp {
 
     // Mexer nesses valores para posicionar a área de colisão
     this.warp.body.setOffset(30, 30)
-    // this.warp.body.
-
-    // Ajusta a posição do círculo para centralizá-lo
-    // this.warp.body.setOffset(0, 0); // Ajuste necessário para centralizar
-    // this.warp.body.setOffset((warpWidth / 2) - radius, (warpHeight / 2) - radius);
-
-    // this.scene.physics.add.overlap(
-    //   this.scene.ball.ball,
-    //   this.warp,
-    //   this.handleOverlap,
-    //   null,
-    //   this.scene
-    // );
   }
 
-  handleOverlap(ball, otherWarp) {
+  handleOverlap(ball, otherWarp, warpZone) {
+    if (warpZone.isCooldown) return; // Ignora se estiver em cooldown
+
+    console.log('overlap warp!!')
+    warpZone.startCooldown();
+
     ball.ball.setVelocity(0);
     ball.ball.alpha = 0;
-    ball.ball.setPosition(otherWarp.x + otherWarp.warp.displayWidth / 2, otherWarp.y);
+
+    // Posicao aonde a outra bola vai aparecer
+    // ball.ball.setPosition(otherWarp.x + otherWarp.warp.displayWidth / 2, otherWarp.y);
+    ball.ball.setPosition(otherWarp.x - otherWarp.warp.displayWidth / 4, otherWarp.y + otherWarp.warp.displayHeight / 4);
+    console.log(otherWarp.x + 0)
+    // ball.ball.setPosition(otherWarp.x - otherWarp.warp.width/2, otherWarp.y);
+    // console.log(otherWarp.warp.displayWidth / 2)
 
     setTimeout(() => {
       ball.ball.alpha = 1;
