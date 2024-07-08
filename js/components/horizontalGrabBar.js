@@ -22,7 +22,6 @@ class HorizontalGrabBar {
     this.bar.displayHeight = 30;
     this.bar.setOrigin(0, 0);
     this.bar.setImmovable();
-    // this.bar.setSize(45, 300); // Define a área de colisão da barra
 
     let proportionWidth = this.bar.displayHeight * 1.5; // 80% da largura do this.bar
     let proportionHeight = this.bar.displayWidth * 1.; // 80% da altura do this.bar
@@ -80,7 +79,6 @@ class HorizontalGrabBar {
     }
 
     // Para ricochetear para outro lado caso a bola bata ao lado da barra
-    //  if (this.scene.ball.ball.x < this.bar.x + this.bar.displayWidth - 10) { // numero magico
     if (this.scene.ball.ball.x < this.bar.x - 10 ||
       this.scene.ball.ball.x > this.bar.x + this.bar.displayWidth - 10) // numero magico
     {

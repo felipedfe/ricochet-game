@@ -32,6 +32,10 @@ class SceneLoad extends Phaser.Scene {
     // warp
     this.load.image("warp", "images/warp.png");
 
+    // tile bar TESTE
+    this.load.image("tile-bar", "images/tile-bar.png");
+    this.load.image("tile-bar-border", "images/tile-bar-border.png");
+
     // audios
     // this.load.audio("right", "audio/right.wav");
     // this.load.audio("wrong", "audio/wrong.wav");
