@@ -35,11 +35,13 @@ class Ball {
     // movimento original
     this.ball.setVelocity(this.ball.vx, this.ball.vy);
 
-    // movimento teste
+    // x invertido
+    // this.ball.setVelocity(-this.ball.vx, this.ball.vy);
+
+    // x e y invertidos
     // this.ball.setVelocity(-this.ball.vx, -this.ball.vy);
 
-    // movimento teste
-    // this.ball.setVelocity(-this.ball.vx, this.ball.vy);
+
   };
 
   stopBall = () => {

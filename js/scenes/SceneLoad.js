@@ -35,6 +35,10 @@ class SceneLoad extends Phaser.Scene {
     // tile bar TESTE
     this.load.image("tile-bar", "images/tile-bar.png");
     this.load.image("tile-bar-border", "images/tile-bar-border.png");
+    
+    this.load.image("bar-top", "images/bar-top.png");
+    this.load.image("bar-mid", "images/bar-mid.png");
+    this.load.image("bar-bot", "images/bar-bot.png");
 
     // audios
     // this.load.audio("right", "audio/right.wav");
@@ -58,9 +62,10 @@ class SceneLoad extends Phaser.Scene {
     // quando terminar o loading caimos aqui
     // this.scene.start("TestStage");
     // this.scene.start("SceneTitle");
-    // this.scene.start("Stage1");
+    this.scene.start("Stage1");
     // this.scene.start("Stage2");
-    this.scene.start("Stage3");
+    // this.scene.start("Stage3");
+    // this.scene.start("Stage4");
   }
 
   showProgress = (progress) => {

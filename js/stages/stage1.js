@@ -20,16 +20,18 @@ class Stage1 extends Phaser.Scene {
     // Grupo das grabBars
     this.grabBarsGroup = [];
 
-    const bar1 = new HorizontalGrabBar(-20, -20, 1100, this);
+    // const bar1 = new HorizontalGrabBar(-20, -20, 1100, this);
+    // this.grabBarsGroup.push(bar1);
+
     // const bar2 = new HorizontalGrabBar(0, 700, 600, this);
     // new DefaultBar(600, 1000, 1000, this);
-    new DefaultBar(100, 700, 700, this);
-    // const bar3 = new GrabBar(600, 940, 940, this)
+    // new DefaultBar(100, 700, 700, this);
+    const bar3 = new GrabBar(600, 930, 930, this, { ricochetLeft: true })
+    this.grabBarsGroup.push(bar3);
 
-    this.grabBarsGroup.push(
-      bar1,
-      // bar3
-    );
+    // const bar4 = new GrabBar(140, 1000, 1000, this, { ricochetRight: false })
+    // this.grabBarsGroup.push(bar4);
+
 
     // Evento de clique
     this.input.on("pointerdown", this.ball.moveBall);
