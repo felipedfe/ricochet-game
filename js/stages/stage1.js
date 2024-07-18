@@ -26,7 +26,7 @@ class Stage1 extends Phaser.Scene {
     // const bar2 = new HorizontalGrabBar(0, 700, 600, this);
     // new DefaultBar(600, 1000, 1000, this);
     // new DefaultBar(100, 700, 700, this);
-    const bar3 = new GrabBar(600, 930, 930, this, { ricochetLeft: true })
+    const bar3 = new GrabBar(600, 930, 930, this, { ricochetRight: true })
     this.grabBarsGroup.push(bar3);
 
     // const bar4 = new GrabBar(140, 1000, 1000, this, { ricochetRight: false })

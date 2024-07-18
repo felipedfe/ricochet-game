@@ -1,6 +1,4 @@
 class DefaultBar2 {
-  static lastId = 0; // Variável estática para manter o ID da última barra criada
-
   constructor(x, initialY, finalY, scene, options = {}) {
     this.scene = scene;
     this.x = x;
@@ -27,6 +25,7 @@ class DefaultBar2 {
 
     // Usar TileSprite em vez de um sprite comum
     this.bar = this.scene.add.tileSprite(this.x, this.y, this.tileWidth, this.tileHeight, 'tile-bar'); // Alteração
+    // aqui abaixo adicionamos física ao objeto pois não estamos o sprite pelo objeto physics (this.scene.physics.add.image)
     this.scene.physics.add.existing(this.bar);
     this.bar.setOrigin(0, 0);
     this.bar.body.setImmovable(true);
@@ -69,8 +68,7 @@ class DefaultBar2 {
     // Para ricochetear para outro lado caso a bola bata EMBAIXO da barra
     let barCollisionBottom = this.bar.y + this.bar.displayHeight - this.bar.body.offset.y;
 
-    if (
-      (this.scene.ball.ball.y) > barCollisionBottom &&
+    if (this.scene.ball.ball.y > barCollisionBottom &&
       !this.scene.ball.isColliding) {
 
       this.scene.ball.isColliding = true;

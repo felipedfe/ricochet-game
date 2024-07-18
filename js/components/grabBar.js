@@ -259,7 +259,7 @@ class GrabBar {
 
     let proportionWidth = this.bar.width * 0.7;
     let proportionHeight = this.bar.height * 0.9;
-    this.bar.setSize(proportionWidth, proportionHeight);
+    this.bar.body.setSize(proportionWidth, proportionHeight);
 
     // Animação da barra
     this.scene.tweens.add({
@@ -356,6 +356,7 @@ class GrabBar {
 
   grabBall = () => {
     console.log('tem ser false', this.ball.x + this.ball.displayWidth / 2 < this.bar.x)
+    // console.log("ricohet:", this,this.ricochetLeft)
 
     const ballObject = this.scene.ball;
     ballObject.collidedBarId = this.id;
