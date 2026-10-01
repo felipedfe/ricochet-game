@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Ricochet - Editor de Fases</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, "Segoe UI", Arial, sans-serif;
+    }
+
+    html,
+    body {
+      height: 100%;
+      overflow: hidden;
+      background: #1e1f22;
+      color: #e6e6e6;
+    }
+
+    #app {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    #toolbar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 8px 12px;
+      background: #2b2d31;
+      border-bottom: 1px solid #3a3c41;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+
+    #toolbar label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #b5b8bd;
+    }
+
+    #toolbar input[type="number"],
+    #toolbar input[type="text"] {
+      width: 80px;
+      background: #1e1f22;
+      border: 1px solid #45484e;
+      color: #e6e6e6;
+      padding: 4px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    #toolbar button {
+      background: #3a3c41;
+      border: 1px solid #4b4e55;
+      color: #e6e6e6;
+      padding: 5px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    #toolbar button:hover {
+      background: #46494f;
+    }
+
+    #toolbar .spacer {
+      flex: 1;
+    }
+
+    #readout {
+      color: #8a8d93;
+      white-space: nowrap;
+    }
+
+    #main {
+      flex: 1;
+      display: flex;
+      min-height: 0;
+    }
+
+    #sidebar {
+      width: 200px;
+      flex-shrink: 0;
+      background: #2b2d31;
+      border-right: 1px solid #3a3c41;
+      padding: 10px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    #sidebar h3 {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #8a8d93;
+      margin: 10px 0 2px;
+    }
+
+    #sidebar h3:first-child {
+      margin-top: 0;
+    }
+
+    .tool-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #333539;
+      border: 1px solid #45484e;
+      color: #e6e6e6;
+      padding: 6px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12.5px;
+      text-align: left;
+    }
+
+    .tool-btn:hover {
+      background: #3d4045;
+    }
+
+    .tool-btn.active {
+      background: #3a5c9a;
+      border-color: #6aa0ff;
+    }
+
+    .tool-btn .thumb {
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #1e1f22;
+      border-radius: 4px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .tool-btn .thumb img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    #sidebar .option-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #b5b8bd;
+      margin-top: 4px;
+    }
+
+    #objectCount {
+      margin-top: auto;
+      padding-top: 8px;
+      border-top: 1px solid #3a3c41;
+      font-size: 12px;
+      color: #8a8d93;
+    }
+
+    #canvasWrap {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+      cursor: grab;
+    }
+
+    canvas.panning {
+      cursor: grabbing;
+    }
+
+    canvas.placing {
+      cursor: crosshair;
+    }
+
+    #propertiesPanel {
+      width: 220px;
+      flex-shrink: 0;
+      background: #2b2d31;
+      border-left: 1px solid #3a3c41;
+      padding: 10px;
+      overflow-y: auto;
+    }
+
+    #propertiesPanel.hidden {
+      display: none;
+    }
+
+    #propertiesPanel h3 {
+      font-size: 12px;
+      color: #e6e6e6;
+      margin-bottom: 10px;
+      word-break: break-word;
+    }
+
+    .prop-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 12px;
+      color: #b5b8bd;
+      margin-bottom: 8px;
+    }
+
+    .prop-row input[type="number"] {
+      width: 90px;
+      background: #1e1f22;
+      border: 1px solid #45484e;
+      color: #e6e6e6;
+      padding: 4px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    .prop-row select {
+      background: #1e1f22;
+      border: 1px solid #45484e;
+      color: #e6e6e6;
+      padding: 3px 4px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    #deleteBtn {
+      width: 100%;
+      margin-top: 8px;
+      background: #5a2c2c;
+      border: 1px solid #7a3c3c;
+      color: #f0d9d9;
+      padding: 6px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12.5px;
+    }
+
+    #deleteBtn:hover {
+      background: #6b3333;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div id="toolbar">
+      <label>Altura da fase (levelHeight)
+        <input type="number" id="levelHeightInput" step="10" min="100">
+      </label>
+      <button id="applyHeightBtn">Aplicar</button>
+      <label>Nome do arquivo
+        <input type="text" id="levelNameInput" value="stage1">
+      </label>
+      <button id="newLevelBtn">Nova fase</button>
+      <button id="exportBtn">Exportar JSON</button>
+      <button id="importBtn">Importar JSON</button>
+      <input type="file" id="fileInput" accept="application/json" style="display:none;">
+      <div class="spacer"></div>
+      <span id="readout">x: - / y: -</span>
+      <button id="fitBtn">Ajustar largura</button>
+      <button id="bottomBtn">Ir pro início (embaixo)</button>
+      <button id="topBtn">Ir pro topo</button>
+    </div>
+    <div id="main">
+      <div id="sidebar">
+        <h3>Ferramenta</h3>
+        <button class="tool-btn active" data-tool="select">
+          <span class="thumb">↖</span> Selecionar (Esc)
+        </button>
+
+        <h3>Únicos</h3>
+        <div id="paletteSingles"></div>
+
+        <h3>Barras / objetos</h3>
+        <div id="paletteObjects"></div>
+
+        <h3>Opções</h3>
+        <label class="option-row">
+          <input type="checkbox" id="continuousCheck" checked>
+          continuar colocando
+        </label>
+        <label class="option-row">
+          <input type="checkbox" id="snapCheck">
+          encaixar no grid
+        </label>
+        <label class="option-row">
+          <input type="checkbox" id="guideCheck" checked>
+          guia de trajetória (X)
+        </label>
+        <div class="option-row" style="color:#6a6d73;">
+          botão direito num objeto: apaga
+        </div>
+
+        <div id="objectCount">0 objetos</div>
+      </div>
+      <div id="canvasWrap">
+        <canvas id="canvas"></canvas>
+      </div>
+      <div id="propertiesPanel" class="hidden">
+        <h3 id="propTitle">—</h3>
+        <div id="propFields"></div>
+        <button id="deleteBtn">Excluir (Del)</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Dimensões do mundo do jogo (ver js/main.js: w=740, h=1360)
+    const WORLD_WIDTH = 740;
+    const SCREEN_HEIGHT = 1360; // altura de "uma tela" da câmera, pra desenhar marcadores
+    const DEFAULT_LEVEL_HEIGHT = 4080; // padrão: mesmo valor usado hoje em stage1.js (SCREEN_HEIGHT * 3)
+    let levelHeight = DEFAULT_LEVEL_HEIGHT;
+
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    const canvasWrap = document.getElementById("canvasWrap");
+    const readout = document.getElementById("readout");
+    const levelHeightInput = document.getElementById("levelHeightInput");
+    levelHeightInput.value = levelHeight;
+
+    // view.x/view.y = coordenada do MUNDO que aparece no canto superior-esquerdo do canvas.
+    // view.scale = quantos pixels de tela por pixel de mundo.
+    const view = { x: 0, y: 0, scale: 1 };
+
+    function resizeCanvas() {
+      canvas.width = canvasWrap.clientWidth;
+      canvas.height = canvasWrap.clientHeight;
+      draw();
+    }
+
+    function worldToScreen(wx, wy) {
+      return [(wx - view.x) * view.scale, (wy - view.y) * view.scale];
+    }
+
+    function screenToWorld(sx, sy) {
+      return [sx / view.scale + view.x, sy / view.scale + view.y];
+    }
+
+    function fitWidth() {
+      const padding = 40; // px de tela de folga nas laterais
+      view.scale = (canvas.width - padding * 2) / WORLD_WIDTH;
+      view.x = -((canvas.width / view.scale) - WORLD_WIDTH) / 2;
+      draw();
+    }
+
+    function goToBottom() {
+      view.y = levelHeight - canvas.height / view.scale;
+      draw();
+    }
+
+    function goToTop() {
+      view.y = 0;
+      draw();
+    }
+
+    // Escolhe um espaçamento de grid "redondo" que renderize entre ~40 e ~100px de tela
+    function pickGridStep() {
+      const steps = [10, 20, 25, 50, 100, 200, 250, 500, 1000];
+      for (const step of steps) {
+        if (step * view.scale >= 40) return step;
+      }
+      return steps[steps.length - 1];
+    }
+
+    // --- Sprites (mesmas imagens do jogo, ver js/scenes/SceneLoad.js) ---
+    const SPRITES = {
+      ball: "../images/ball.png",
+      hole: "../images/hole.png",
+      warp: "../images/warp.png",
+      grabBar: "../images/grab-bar.png",
+      defaultBar: "../images/default-bar.png",
+      tileBar: "../images/tile-bar.png",
+    };
+    const spriteImages = {};
+    for (const key in SPRITES) {
+      const img = new Image();
+      img.onload = draw;
+      img.src = SPRITES[key];
+      spriteImages[key] = img;
+    }
+
+    // --- Modelo de dados da fase ---
+    // ball/hole são únicos (batem com os campos de topo do JSON exportado);
+    // objects é a lista de barras/warps (bate com a lista "objects" do JSON).
+    const level = {
+      ball: null,
+      hole: null,
+      objects: [],
+    };
+    let nextId = 1;
+
+    // Tipos "únicos": só existe uma instância por fase.
+    const SINGLE_TYPES = {
+      Ball: { label: "Bola (início)", sprite: "ball", width: 40, height: 40 },
+      Hole: { label: "Buraco", sprite: "hole", width: 60, height: 20 },
+    };
+
+    // Tipos de barra/objeto: viram entradas em level.objects.
+    // defaults() recebe a posição de criação e devolve as props extras
+    // (mesmo shape que os construtores das classes em js/components/).
+    const OBJECT_TYPES = {
+      GrabBar: {
+        label: "Grab Bar (agarra)",
+        sprite: "grabBar",
+        width: 30,
+        height: 200,
+        defaults: (x, y) => ({ finalY: y, speed: 2000, ricochetLeft: false, ricochetRight: false, width: 30, height: 200 }),
+      },
+      DefaultBar: {
+        label: "Default Bar (rebate)",
+        sprite: "defaultBar",
+        width: 30,
+        height: 200,
+        defaults: (x, y) => ({ finalY: y, speed: 2000, orientation: "vert", width: 30, height: 200 }),
+      },
+      DefaultBar2: {
+        label: "Default Bar 2 (tile)",
+        sprite: "tileBar",
+        width: 30,
+        height: 200,
+        defaults: (x, y) => ({ finalY: y, speed: 2000, orientation: "vert", tileWidth: 30, tileHeight: 200 }),
+      },
+      HorizontalGrabBar: {
+        label: "Horizontal Grab Bar",
+        sprite: "grabBar",
+        width: 200,
+        height: 30,
+        defaults: (x, y) => ({ finalX: x, speed: 2000, width: 200, height: 30 }),
+      },
+      Warp: {
+        label: "Warp",
+        sprite: "warp",
+        width: 50,
+        height: 50,
+        // "pair" agrupa dois Warps na mesma WarpZone (ver js/components/warpZone.js:
+        // ela sempre liga um warp1 com um warp2). No export, dois Warps com o
+        // mesmo "pair" viram uma WarpZone; o loader (Fase 6) casa os pares.
+        defaults: () => ({ pair: 1 }),
+      },
+    };
+
+    // Campos editáveis no painel de propriedades, por tipo. width/height
+    // (quando existem) não são parâmetro do construtor da classe real —
+    // batem com o padrão já usado nas stages hoje (ex: stage3.js faz
+    // `bar.bar.displayWidth = 200` na mão pra virar uma barra horizontal).
+    const FIELD_SCHEMAS = {
+      Ball: [
+        { key: "x", label: "X", type: "number" },
+        { key: "y", label: "Y", type: "number" },
+      ],
+      Hole: [
+        { key: "x", label: "X", type: "number" },
+        { key: "y", label: "Y", type: "number" },
+      ],
+      Warp: [
+        { key: "x", label: "X", type: "number" },
+        { key: "y", label: "Y", type: "number" },
+        { key: "pair", label: "Par nº (2 warps c/ mesmo nº)", type: "number", min: 1 },
+      ],
+      GrabBar: [
+        { key: "x", label: "X", type: "number" },
+        { key: "y", label: "Y inicial", type: "number" },
+        { key: "finalY", label: "Y final (oscilação)", type: "number" },
+        { key: "speed", label: "Velocidade (ms)", type: "number", min: 0 },
+        { key: "width", label: "Largura", type: "number", min: 1 },
+        { key: "height", label: "Altura", type: "number", min: 1 },
+        { key: "ricochetLeft", label: "Ricochet esquerda", type: "checkbox" },
+        { key: "ricochetRight", label: "Ricochet direita", type: "checkbox" },
+      ],
+      DefaultBar: [
+        { key: "x", label: "X", type: "number" },
+        { key: "y", label: "Y inicial", type: "number" },
+        { key: "finalY", label: "Y final (oscilação)", type: "number" },
+        { key: "speed", label: "Velocidade (ms)", type: "number", min: 0 },
+        { key: "orientation", label: "Orientação", type: "select", options: ["vert", "hor"] },
+        { key: "width", label: "Largura", type: "number", min: 1 },
+        { key: "height", label: "Altura", type: "number", min: 1 },
+      ],
+      DefaultBar2: [
+        { key: "x", label: "X", type: "number" },
+        { key: "y", label: "Y inicial", type: "number" },
+        { key: "finalY", label: "Y final (oscilação)", type: "number" },
+        { key: "speed", label: "Velocidade (ms)", type: "number", min: 0 },
+        { key: "orientation", label: "Orientação", type: "select", options: ["vert", "hor"] },
+        { key: "tileWidth", label: "Largura (tile)", type: "number", min: 1 },
+        { key: "tileHeight", label: "Altura (tile)", type: "number", min: 1 },
+      ],
+      HorizontalGrabBar: [
+        { key: "x", label: "X inicial", type: "number" },
+        { key: "finalX", label: "X final (oscilação)", type: "number" },
+        { key: "y", label: "Y", type: "number" },
+        { key: "speed", label: "Velocidade (ms)", type: "number", min: 0 },
+        { key: "width", label: "Largura", type: "number", min: 1 },
+        { key: "height", label: "Altura", type: "number", min: 1 },
+      ],
+    };
+
+    function objectSize(entry, obj) {
+      if (obj && obj.type === "DefaultBar2") return [obj.tileWidth, obj.tileHeight];
+      if (obj && obj.width != null && obj.height != null) return [obj.width, obj.height];
+      return [entry.width, entry.height];
+    }
+
+    // --- Paleta lateral ---
+    function makeToolButton(tool, entry) {
+      const btn = document.createElement("button");
+      btn.className = "tool-btn";
+      btn.dataset.tool = tool;
+      const thumb = document.createElement("span");
+      thumb.className = "thumb";
+      const img = document.createElement("img");
+      img.src = SPRITES[entry.sprite];
+      thumb.appendChild(img);
+      btn.appendChild(thumb);
+      btn.appendChild(document.createTextNode(entry.label));
+      btn.addEventListener("click", () => setTool(tool));
+      return btn;
+    }
+
+    const paletteSingles = document.getElementById("paletteSingles");
+    for (const type in SINGLE_TYPES) {
+      paletteSingles.appendChild(makeToolButton(type, SINGLE_TYPES[type]));
+    }
+
+    const paletteObjects = document.getElementById("paletteObjects");
+    for (const type in OBJECT_TYPES) {
+      paletteObjects.appendChild(makeToolButton(type, OBJECT_TYPES[type]));
+    }
+
+    let currentTool = "select";
+    function setTool(tool) {
+      currentTool = tool;
+      document.querySelectorAll(".tool-btn").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.tool === tool);
+      });
+      canvas.classList.toggle("placing", tool !== "select");
+    }
+    document.querySelector('.tool-btn[data-tool="select"]').addEventListener("click", () => setTool("select"));
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        setTool("select");
+        clearSelection();
+        draw();
+        return;
+      }
+      if (e.key === "Delete" || e.key === "Backspace") {
+        const tag = document.activeElement.tagName;
+        if (tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA") return; // deixa a edição normal do campo acontecer
+        if (selected) deleteSelected();
+      }
+    });
+
+    const continuousCheck = document.getElementById("continuousCheck");
+    const snapCheck = document.getElementById("snapCheck");
+    const guideCheck = document.getElementById("guideCheck");
+    guideCheck.addEventListener("change", draw);
+
+    function snapValue(v) {
+      if (!snapCheck.checked) return v;
+      const step = pickGridStep();
+      return Math.round(v / step) * step;
+    }
+
+    function updateObjectCount() {
+      const total = level.objects.length + (level.ball ? 1 : 0) + (level.hole ? 1 : 0);
+      document.getElementById("objectCount").textContent = `${total} objeto${total === 1 ? "" : "s"}`;
+    }
+
+    function placeAt(tool, wx, wy) {
+      const x = Math.round(snapValue(wx));
+      const y = Math.round(snapValue(wy));
+
+      if (tool === "Ball") {
+        level.ball = { x, y };
+        selected = { kind: "ball" };
+      } else if (tool === "Hole") {
+        level.hole = { x, y };
+        selected = { kind: "hole" };
+      } else if (OBJECT_TYPES[tool]) {
+        const def = OBJECT_TYPES[tool];
+        const obj = { id: nextId++, type: tool, x, y, ...def.defaults(x, y) };
+        level.objects.push(obj);
+        selected = { kind: "object", ref: obj };
+      }
+
+      updateObjectCount();
+      renderPropertyPanel();
+      draw();
+      if (!continuousCheck.checked) setTool("select");
+    }
+
+    function findObjectAt(wx, wy) {
+      // percorre de trás pra frente: o último desenhado (por cima) ganha
+      for (let i = level.objects.length - 1; i >= 0; i--) {
+        const obj = level.objects[i];
+        const entry = OBJECT_TYPES[obj.type];
+        const [w, h] = objectSize(entry, obj);
+        if (wx >= obj.x && wx <= obj.x + w && wy >= obj.y && wy <= obj.y + h) {
+          return { kind: "object", ref: obj, index: i };
+        }
+      }
+      if (level.hole) {
+        const { width: w, height: h } = SINGLE_TYPES.Hole;
+        if (wx >= level.hole.x && wx <= level.hole.x + w && wy >= level.hole.y && wy <= level.hole.y + h) {
+          return { kind: "hole" };
+        }
+      }
+      if (level.ball) {
+        const { width: w, height: h } = SINGLE_TYPES.Ball;
+        if (wx >= level.ball.x && wx <= level.ball.x + w && wy >= level.ball.y && wy <= level.ball.y + h) {
+          return { kind: "ball" };
+        }
+      }
+      return null;
+    }
+
+    // --- Seleção e painel de propriedades ---
+    let selected = null; // { kind: 'object', ref } | { kind: 'ball' } | { kind: 'hole' } | null
+
+    function getSelectedData() {
+      if (!selected) return null;
+      if (selected.kind === "object") return selected.ref;
+      if (selected.kind === "ball") return level.ball;
+      if (selected.kind === "hole") return level.hole;
+      return null;
+    }
+
+    function getSelectedType() {
+      if (!selected) return null;
+      if (selected.kind === "object") return selected.ref.type;
+      if (selected.kind === "ball") return "Ball";
+      if (selected.kind === "hole") return "Hole";
+      return null;
+    }
+
+    function sameHit(a, b) {
+      if (!a || !b) return false;
+      if (a.kind !== b.kind) return false;
+      return a.kind !== "object" || a.ref === b.ref;
+    }
+
+    function selectHit(hit) {
+      selected = hit;
+      renderPropertyPanel();
+    }
+
+    function clearSelection() {
+      selected = null;
+      renderPropertyPanel();
+    }
+
+    function deleteSelected() {
+      if (!selected) return;
+      if (selected.kind === "object") {
+        const idx = level.objects.indexOf(selected.ref);
+        if (idx >= 0) level.objects.splice(idx, 1);
+      } else if (selected.kind === "ball") {
+        level.ball = null;
+      } else if (selected.kind === "hole") {
+        level.hole = null;
+      }
+      selected = null;
+      updateObjectCount();
+      renderPropertyPanel();
+      draw();
+    }
+
+    const propertiesPanel = document.getElementById("propertiesPanel");
+    const propTitle = document.getElementById("propTitle");
+    const propFields = document.getElementById("propFields");
+    document.getElementById("deleteBtn").addEventListener("click", deleteSelected);
+
+    function renderPropertyPanel() {
+      const type = getSelectedType();
+      const data = getSelectedData();
+      if (!type || !data) {
+        propertiesPanel.classList.add("hidden");
+        return;
+      }
+      propertiesPanel.classList.remove("hidden");
+      propTitle.textContent = selected.kind === "object" ? `${type} #${data.id}` : type;
+      propFields.innerHTML = "";
+
+      const schema = FIELD_SCHEMAS[type] || [];
+      for (const field of schema) {
+        const row = document.createElement("label");
+        row.className = "prop-row";
+        const span = document.createElement("span");
+        span.textContent = field.label;
+        row.appendChild(span);
+
+        let input;
+        if (field.type === "checkbox") {
+          input = document.createElement("input");
+          input.type = "checkbox";
+          input.checked = !!data[field.key];
+          input.addEventListener("change", () => {
+            data[field.key] = input.checked;
+            draw();
+          });
+        } else if (field.type === "select") {
+          input = document.createElement("select");
+          for (const opt of field.options) {
+            const optionEl = document.createElement("option");
+            optionEl.value = opt;
+            optionEl.textContent = opt;
+            input.appendChild(optionEl);
+          }
+          input.value = data[field.key];
+          input.addEventListener("change", () => {
+            data[field.key] = input.value;
+            draw();
+          });
+        } else {
+          input = document.createElement("input");
+          input.type = "number";
+          input.step = field.step || 1;
+          if (field.min != null) input.min = field.min;
+          input.value = data[field.key];
+          input.addEventListener("input", () => {
+            const v = parseFloat(input.value);
+            if (!isNaN(v)) {
+              data[field.key] = v;
+              draw();
+            }
+          });
+        }
+        input.dataset.field = field.key;
+        row.appendChild(input);
+        propFields.appendChild(row);
+      }
+    }
+
+    // Atualiza só os valores dos campos já existentes no painel (sem
+    // recriar o DOM), usado durante o arraste pra não perder foco/piscar.
+    function updatePanelValuesOnly() {
+      const data = getSelectedData();
+      if (!data) return;
+      propFields.querySelectorAll("[data-field]").forEach((el) => {
+        const key = el.dataset.field;
+        if (document.activeElement === el || !(key in data)) return;
+        if (el.type === "checkbox") el.checked = !!data[key];
+        else el.value = data[key];
+      });
+    }
+
+    // --- Desenho ---
+    function draw() {
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // fundo fora dos limites do mundo (área não jogável)
+      ctx.fillStyle = "#151618";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // área do mundo
+      const [worldTL_x, worldTL_y] = worldToScreen(0, 0);
+      const [worldBR_x, worldBR_y] = worldToScreen(WORLD_WIDTH, levelHeight);
+      ctx.fillStyle = "#26282c";
+      ctx.fillRect(worldTL_x, worldTL_y, worldBR_x - worldTL_x, worldBR_y - worldTL_y);
+
+      drawGrid();
+      drawScreenMarkers();
+      drawTrajectoryGuides();
+      drawObjects();
+      drawSelectionHighlight();
+
+      // borda do mundo
+      ctx.strokeStyle = "#6aa0ff";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(worldTL_x, worldTL_y, worldBR_x - worldTL_x, worldBR_y - worldTL_y);
+
+      // Toda alteração (fase ou câmera) termina num draw(), então é o
+      // ponto único pra agendar o autosave do rascunho.
+      scheduleDraftSave();
+    }
+
+    function drawGrid() {
+      const step = pickGridStep();
+      const bigStep = step * 5;
+
+      const [minX, minY] = screenToWorld(0, 0);
+      const [maxX, maxY] = screenToWorld(canvas.width, canvas.height);
+
+      const startX = Math.max(0, Math.floor(minX / step) * step);
+      const endX = Math.min(WORLD_WIDTH, Math.ceil(maxX / step) * step);
+      const startY = Math.max(0, Math.floor(minY / step) * step);
+      const endY = Math.min(levelHeight, Math.ceil(maxY / step) * step);
+
+      ctx.lineWidth = 1;
+      for (let x = startX; x <= endX; x += step) {
+        const isBig = x % bigStep === 0;
+        ctx.strokeStyle = isBig ? "#43464d" : "#333539";
+        const [sx] = worldToScreen(x, 0);
+        const [, sy0] = worldToScreen(0, Math.max(0, minY));
+        const [, sy1] = worldToScreen(0, Math.min(levelHeight, maxY));
+        ctx.beginPath();
+        ctx.moveTo(sx, Math.max(0, sy0));
+        ctx.lineTo(sx, Math.min(canvas.height, sy1));
+        ctx.stroke();
+      }
+
+      for (let y = startY; y <= endY; y += step) {
+        const isBig = y % bigStep === 0;
+        ctx.strokeStyle = isBig ? "#43464d" : "#333539";
+        const [, sy] = worldToScreen(0, y);
+        const [sx0] = worldToScreen(Math.max(0, minX), 0);
+        const [sx1] = worldToScreen(Math.min(WORLD_WIDTH, maxX), 0);
+        ctx.beginPath();
+        ctx.moveTo(Math.max(0, sx0), sy);
+        ctx.lineTo(Math.min(canvas.width, sx1), sy);
+        ctx.stroke();
+      }
+    }
+
+    // Marca a divisão entre "telas" da câmera (a cada SCREEN_HEIGHT px),
+    // pra visualizar o que fica visível em cada momento da rolagem.
+    function drawScreenMarkers() {
+      const screenCount = Math.ceil(levelHeight / SCREEN_HEIGHT);
+      ctx.strokeStyle = "#ffb347";
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([6, 6]);
+      ctx.font = "12px monospace";
+      ctx.fillStyle = "#ffb347";
+
+      for (let i = 1; i < screenCount; i++) {
+        const y = i * SCREEN_HEIGHT;
+        if (y > levelHeight) break;
+        const [sx0, sy] = worldToScreen(0, y);
+        const [sx1] = worldToScreen(WORLD_WIDTH, y);
+        ctx.beginPath();
+        ctx.moveTo(sx0, sy);
+        ctx.lineTo(sx1, sy);
+        ctx.stroke();
+        ctx.fillText(`y = ${y}`, sx0 + 6, sy - 6);
+      }
+      ctx.setLineDash([]);
+    }
+
+    function drawSprite(spriteKey, wx, wy, w, h, label) {
+      const [sx, sy] = worldToScreen(wx, wy);
+      const sw = w * view.scale;
+      const sh = h * view.scale;
+      const img = spriteImages[spriteKey];
+
+      if (img && img.complete && img.naturalWidth > 0) {
+        ctx.drawImage(img, sx, sy, sw, sh);
+      } else {
+        ctx.fillStyle = "#5a5d63";
+        ctx.fillRect(sx, sy, sw, sh);
+      }
+
+      ctx.strokeStyle = "rgba(255,255,255,0.25)";
+      ctx.lineWidth = 1;
+      ctx.strokeRect(sx, sy, sw, sh);
+
+      if (label && sw > 18) {
+        ctx.font = "11px monospace";
+        ctx.fillStyle = "#d7d9dc";
+        ctx.fillText(label, sx, sy - 4);
+      }
+    }
+
+    function drawObjects() {
+      for (const obj of level.objects) {
+        const entry = OBJECT_TYPES[obj.type];
+        const [w, h] = objectSize(entry, obj);
+        drawSprite(entry.sprite, obj.x, obj.y, w, h, `${obj.type} #${obj.id}`);
+      }
+      if (level.hole) {
+        drawSprite("hole", level.hole.x, level.hole.y, SINGLE_TYPES.Hole.width, SINGLE_TYPES.Hole.height, "Buraco");
+      }
+      if (level.ball) {
+        drawSprite("ball", level.ball.x, level.ball.y, SINGLE_TYPES.Ball.width, SINGLE_TYPES.Ball.height, "Início");
+      }
+    }
+
+    // --- Guia de trajetória (X) ---
+    // A bola sempre se move a 45°, então qualquer diagonal a partir de um
+    // ponto é uma das duas retas: x+y=C (sobe-direita / desce-esquerda)
+    // ou x-y=C (sobe-esquerda / desce-direita). Desenhar as duas retas
+    // inteiras (até a borda do mundo) cobre as 4 direções — o "X".
+    let hoverWorld = null;
+
+    function diagonalSegmentSum(C) {
+      // x + y = C
+      const xStart = Math.max(0, C - levelHeight);
+      const xEnd = Math.min(WORLD_WIDTH, C);
+      if (xStart > xEnd) return null;
+      return [[xStart, C - xStart], [xEnd, C - xEnd]];
+    }
+
+    function diagonalSegmentDiff(C) {
+      // x - y = C  =>  y = x - C
+      const xStart = Math.max(0, C);
+      const xEnd = Math.min(WORLD_WIDTH, C + levelHeight);
+      if (xStart > xEnd) return null;
+      return [[xStart, xStart - C], [xEnd, xEnd - C]];
+    }
+
+    function drawTrajectoryX(x0, y0, { color, alpha, showLabel }) {
+      const Csum = x0 + y0;
+      const Cdiff = x0 - y0;
+
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1.5;
+
+      for (const seg of [diagonalSegmentSum(Csum), diagonalSegmentDiff(Cdiff)]) {
+        if (!seg) continue;
+        const [sx0, sy0] = worldToScreen(seg[0][0], seg[0][1]);
+        const [sx1, sy1] = worldToScreen(seg[1][0], seg[1][1]);
+        ctx.beginPath();
+        ctx.moveTo(sx0, sy0);
+        ctx.lineTo(sx1, sy1);
+        ctx.stroke();
+      }
+      ctx.restore();
+
+      if (showLabel) {
+        const [sx, sy] = worldToScreen(x0, y0);
+        ctx.font = "11px monospace";
+        ctx.fillStyle = color;
+        ctx.fillText(`x+y=${Csum}`, sx + 8, sy - 16);
+        ctx.fillText(`x-y=${Cdiff}`, sx + 8, sy - 4);
+      }
+    }
+
+    function drawTrajectoryGuides() {
+      if (!guideCheck.checked) return;
+
+      // guia fixa no objeto selecionado (mais forte, com os valores de C)
+      const data = getSelectedData();
+      if (data) {
+        drawTrajectoryX(data.x, data.y, { color: "#ffe8f0", alpha: 0.55, showLabel: true });
+      }
+
+      // guia leve seguindo o cursor, só útil enquanto não tá arrastando/panning
+      if (hoverWorld && currentTool === "select" && !isPanning && !isDraggingObject) {
+        drawTrajectoryX(hoverWorld[0], hoverWorld[1], { color: "#7dd3fc", alpha: 0.3, showLabel: false });
+      }
+    }
+
+    function drawSelectionHighlight() {
+      const type = getSelectedType();
+      const data = getSelectedData();
+      if (!type || !data) return;
+
+      let w, h;
+      if (type === "Ball") [w, h] = [SINGLE_TYPES.Ball.width, SINGLE_TYPES.Ball.height];
+      else if (type === "Hole") [w, h] = [SINGLE_TYPES.Hole.width, SINGLE_TYPES.Hole.height];
+      else [w, h] = objectSize(OBJECT_TYPES[type], data);
+
+      const [sx, sy] = worldToScreen(data.x, data.y);
+      ctx.strokeStyle = "#ffd54a";
+      ctx.lineWidth = 2;
+      ctx.setLineDash([5, 4]);
+      ctx.strokeRect(sx - 3, sy - 3, w * view.scale + 6, h * view.scale + 6);
+      ctx.setLineDash([]);
+    }
+
+    // --- Interação: pan, zoom, selecionar, arrastar, colocar e apagar objetos ---
+    let isPanning = false;
+    let isDraggingObject = false;
+    let mouseDownScreen = [0, 0];
+    let lastScreen = [0, 0];
+    let dragStartWorld = [0, 0];
+    let dragStartData = null;
+    const DRAG_THRESHOLD = 5; // px de tela: abaixo disso, mousedown+mouseup conta como "clique"
+
+    canvas.addEventListener("mousedown", (e) => {
+      if (e.button !== 0) return;
+      mouseDownScreen = [e.clientX, e.clientY];
+      lastScreen = [e.clientX, e.clientY];
+
+      if (currentTool !== "select") return;
+
+      const rect = canvas.getBoundingClientRect();
+      const [wx, wy] = screenToWorld(e.clientX - rect.left, e.clientY - rect.top);
+      const hit = findObjectAt(wx, wy);
+
+      if (hit) {
+        selectHit(hit);
+        const data = getSelectedData();
+        isDraggingObject = true;
+        dragStartWorld = [wx, wy];
+        dragStartData = { x: data.x, y: data.y, finalY: data.finalY, finalX: data.finalX };
+      } else {
+        clearSelection();
+        isPanning = true;
+        canvas.classList.add("panning");
+      }
+      draw();
+    });
+
+    window.addEventListener("mouseup", (e) => {
+      if (currentTool === "select") {
+        isPanning = false;
+        isDraggingObject = false;
+        dragStartData = null;
+        canvas.classList.remove("panning");
+        return;
+      }
+      const dx = e.clientX - mouseDownScreen[0];
+      const dy = e.clientY - mouseDownScreen[1];
+      if (Math.hypot(dx, dy) < DRAG_THRESHOLD) {
+        const rect = canvas.getBoundingClientRect();
+        const [wx, wy] = screenToWorld(e.clientX - rect.left, e.clientY - rect.top);
+        placeAt(currentTool, wx, wy);
+      }
+    });
+
+    canvas.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+      const rect = canvas.getBoundingClientRect();
+      const [wx, wy] = screenToWorld(e.clientX - rect.left, e.clientY - rect.top);
+      const hit = findObjectAt(wx, wy);
+      if (!hit) return;
+
+      if (hit.kind === "object") level.objects.splice(hit.index, 1);
+      else if (hit.kind === "ball") level.ball = null;
+      else if (hit.kind === "hole") level.hole = null;
+
+      if (sameHit(selected, hit)) clearSelection();
+
+      updateObjectCount();
+      draw();
+    });
+
+    window.addEventListener("mousemove", (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const sx = e.clientX - rect.left;
+      const sy = e.clientY - rect.top;
+      const [wx, wy] = screenToWorld(sx, sy);
+      readout.textContent = `x: ${wx.toFixed(0)} / y: ${wy.toFixed(0)} (zoom ${(view.scale * 100).toFixed(0)}%)`;
+      hoverWorld = [wx, wy];
+
+      if (isDraggingObject) {
+        const data = getSelectedData();
+        const dx = wx - dragStartWorld[0];
+        const dy = wy - dragStartWorld[1];
+        data.x = Math.round(snapValue(dragStartData.x + dx));
+        data.y = Math.round(snapValue(dragStartData.y + dy));
+        if (dragStartData.finalY != null) data.finalY = Math.round(dragStartData.finalY + (data.y - dragStartData.y));
+        if (dragStartData.finalX != null) data.finalX = Math.round(dragStartData.finalX + (data.x - dragStartData.x));
+        updatePanelValuesOnly();
+        draw();
+      } else if (isPanning) {
+        const dx = e.clientX - lastScreen[0];
+        const dy = e.clientY - lastScreen[1];
+        lastScreen = [e.clientX, e.clientY];
+        view.x -= dx / view.scale;
+        view.y -= dy / view.scale;
+        draw();
+      } else if (guideCheck.checked && currentTool === "select") {
+        draw(); // atualiza a guia de trajetória que segue o cursor
+      }
+    });
+
+    canvas.addEventListener("wheel", (e) => {
+      e.preventDefault();
+      const rect = canvas.getBoundingClientRect();
+      const sx = e.clientX - rect.left;
+      const sy = e.clientY - rect.top;
+      const [worldXBefore, worldYBefore] = screenToWorld(sx, sy);
+
+      const zoomFactor = e.deltaY < 0 ? 1.1 : 1 / 1.1;
+      view.scale = Math.min(4, Math.max(0.05, view.scale * zoomFactor));
+
+      // mantém o ponto do mundo sob o cursor fixo na tela ao dar zoom
+      view.x = worldXBefore - sx / view.scale;
+      view.y = worldYBefore - sy / view.scale;
+      draw();
+    }, { passive: false });
+
+    // --- Toolbar ---
+    document.getElementById("applyHeightBtn").addEventListener("click", () => {
+      const value = parseInt(levelHeightInput.value, 10);
+      if (!isNaN(value) && value > 0) {
+        levelHeight = value;
+        draw();
+      }
+    });
+
+    document.getElementById("fitBtn").addEventListener("click", fitWidth);
+    document.getElementById("bottomBtn").addEventListener("click", goToBottom);
+    document.getElementById("topBtn").addEventListener("click", goToTop);
+
+    // --- Exportar / Importar JSON ---
+    // Formato batendo com o que o loader da Fase 6 vai esperar: levelHeight,
+    // ball/hole (únicos) e objects (lista de barras/warps). "id" é só
+    // controle interno do editor, não precisa ir pro arquivo.
+    function serializeLevel() {
+      return {
+        levelHeight,
+        ball: level.ball,
+        hole: level.hole,
+        objects: level.objects.map(({ id, ...rest }) => rest),
+      };
+    }
+
+    function downloadJSON() {
+      const filename = (levelNameInput.value.trim() || "stage") + ".json";
+      const blob = new Blob([JSON.stringify(serializeLevel(), null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function loadLevelFromData(data) {
+      levelHeight = data.levelHeight || levelHeight;
+      levelHeightInput.value = levelHeight;
+      level.ball = data.ball || null;
+      level.hole = data.hole || null;
+      level.objects = (data.objects || []).map((obj) => ({ id: nextId++, ...obj }));
+
+      clearSelection();
+      updateObjectCount();
+      fitWidth();
+      goToBottom();
+    }
+
+    const levelNameInput = document.getElementById("levelNameInput");
+    const fileInput = document.getElementById("fileInput");
+
+    document.getElementById("exportBtn").addEventListener("click", downloadJSON);
+    document.getElementById("importBtn").addEventListener("click", () => fileInput.click());
+
+    fileInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          loadLevelFromData(JSON.parse(reader.result));
+        } catch (err) {
+          alert("JSON inválido: " + err.message);
+        }
+      };
+      reader.readAsText(file);
+      fileInput.value = ""; // permite importar o mesmo arquivo de novo depois
+    });
+
+    // --- Rascunho no localStorage ---
+    // O live-reload do servidor de dev recarrega esta página sempre que
+    // qualquer arquivo do projeto é salvo; o rascunho faz o editor voltar
+    // exatamente de onde parou (fase, nome do arquivo e câmera).
+    const DRAFT_KEY = "ricochet-level-editor-draft";
+    let draftSaveTimer = null;
+
+    function saveDraft() {
+      clearTimeout(draftSaveTimer);
+      draftSaveTimer = null;
+      try {
+        localStorage.setItem(DRAFT_KEY, JSON.stringify({
+          name: levelNameInput.value,
+          view: { x: view.x, y: view.y, scale: view.scale },
+          level: serializeLevel(),
+        }));
+      } catch (err) {
+        console.warn("Editor: não foi possível salvar o rascunho", err);
+      }
+    }
+
+    function scheduleDraftSave() {
+      if (draftSaveTimer) return;
+      draftSaveTimer = setTimeout(saveDraft, 300);
+    }
+
+    function restoreDraft() {
+      let draft;
+      try {
+        draft = JSON.parse(localStorage.getItem(DRAFT_KEY));
+      } catch (err) {
+        console.warn("Editor: rascunho salvo está corrompido, ignorando", err);
+      }
+      if (!draft || !draft.level) return false;
+
+      if (draft.name) levelNameInput.value = draft.name;
+      loadLevelFromData(draft.level);
+      if (draft.view) {
+        Object.assign(view, draft.view);
+        draw();
+      }
+      return true;
+    }
+
+    levelNameInput.addEventListener("input", scheduleDraftSave);
+    // garante que a última alteração (ainda dentro do debounce) não se perca no reload
+    window.addEventListener("pagehide", saveDraft);
+
+    document.getElementById("newLevelBtn").addEventListener("click", () => {
+      if (!confirm("Começar uma fase nova? O rascunho atual será descartado.")) return;
+      loadLevelFromData({ levelHeight: DEFAULT_LEVEL_HEIGHT });
+    });
+
+    window.addEventListener("resize", resizeCanvas);
+
+    resizeCanvas();
+    if (!restoreDraft()) {
+      fitWidth();
+      goToBottom();
+    }
+    updateObjectCount();
+  </script>
+</body>
+
+</html>

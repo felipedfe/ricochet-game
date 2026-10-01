@@ -1,0 +1,15 @@
+{
+  "levelHeight": 4080,
+  "ball": { "x": 370, "y": 4040 },
+  "hole": { "x": 150, "y": 0 },
+  "objects": [
+    { "type": "GrabBar", "x": 700, "y": 3650, "finalY": 3650, "speed": 2000, "width": 30, "height": 200, "ricochetLeft": false, "ricochetRight": true },
+    { "type": "GrabBar", "x": 140, "y": 3080, "finalY": 3290, "speed": 1500, "width": 30, "height": 200, "ricochetLeft": false, "ricochetRight": false },
+    { "type": "DefaultBar", "x": 650, "y": 2550, "finalY": 2750, "speed": 2000, "orientation": "vert", "width": 30, "height": 200 },
+    { "type": "GrabBar", "x": 140, "y": 2080, "finalY": 2390, "speed": 1500, "width": 30, "height": 200, "ricochetLeft": false, "ricochetRight": false },
+    { "type": "DefaultBar", "x": 650, "y": 1630, "finalY": 1630, "speed": 2000, "orientation": "vert", "width": 30, "height": 200 },
+    { "type": "GrabBar", "x": 140, "y": 980, "finalY": 1370, "speed": 1500, "width": 30, "height": 200, "ricochetLeft": false, "ricochetRight": false },
+    { "type": "DefaultBar", "x": 650, "y": 610, "finalY": 610, "speed": 2000, "orientation": "vert", "width": 30, "height": 200 },
+    { "type": "DefaultBar", "x": 30, "y": 60, "finalY": 60, "speed": 2000, "orientation": "vert", "width": 30, "height": 200 }
+  ]
+}

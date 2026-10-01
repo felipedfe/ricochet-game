@@ -18,6 +18,7 @@ class SceneLoad extends Phaser.Scene {
 
     // bg
     this.load.image("titleBack", "images/title-back.jpg");
+    this.load.image("titleBack2", "images/title-back-2.png");
 
     // bola
     this.load.image("ball", "images/ball.png");
